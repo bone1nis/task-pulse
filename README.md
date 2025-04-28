@@ -44,7 +44,7 @@
 
 ```bash
 git clone https://github.com/bone1nis/task-pulse.git
-cd taskpulse
+cd task-pulse
 ```
 
 ### 2. Конфигурация окружения
@@ -60,7 +60,7 @@ cp fullstack-todo-frontend/.env.example fullstack-todo-frontend/.env
 
 ```
 DB_CONNECTION=mysql
-DB_HOST=db
+DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=root
@@ -78,3 +78,27 @@ docker-compose up --build
 backend — Laravel API (порт 8080)  
 frontend — Vue 3 SPA (порт 5173)  
 db — MySQL (порт 3306)
+
+### 4. Инициализация базы данных и миграции
+
+После того как все контейнеры поднимутся, нужно инициализировать базу данных с помощью миграций и сидов.
+
+```bash
+docker exec -it fullstack_app php artisan migrate:refresh --seed
+```
+
+### 5. Настройка JWT
+
+Для настройки аутентификации через JWT необходимо создать секретный ключ:
+
+1. Сгенерируйте ключ
+
+```bash
+   docker exec -it fullstack_app php artisan key:generate
+```
+
+2. После этого добавьте сгенерированный ключ в .env файл:
+
+```bash
+JWT_SECRET=your_generated_secret_key
+```
