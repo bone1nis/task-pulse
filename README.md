@@ -43,7 +43,7 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/yourname/taskpulse.git
+git clone https://github.com/bone1nis/task-pulse.git
 cd taskpulse
 ```
 
@@ -52,8 +52,8 @@ cd taskpulse
 Скопируйте файлы .env:
 
 ```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
+cp fullstack-todo-backend/.env.example fullstack-todo-backend/.env
+cp fullstack-todo-frontend/.env.example fullstack-todo-frontend/.env
 ```
 
 Настройте параметры в backend/.env:
