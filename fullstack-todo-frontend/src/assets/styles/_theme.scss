@@ -1,0 +1,30 @@
+// Светлая тема
+$color-background: $vt-c-white;
+$color-background-soft: $vt-c-white-soft;
+$color-background-mute: $vt-c-white-mute;
+
+$color-border: $vt-c-divider-light-2;
+$color-border-hover: $vt-c-divider-light-1;
+
+$color-heading: $vt-c-green-dark;
+$color-text: $vt-c-text-light;
+
+$section-gap: 160px; // Отступы между секциями
+
+// Темная тема
+@media (prefers-color-scheme: dark) {
+  $color-background: #121212;
+  $color-background-soft: #1d1d1d;
+  $color-background-mute: #222222;
+
+  $color-border: $vt-c-divider-dark-2;
+  $color-border-hover: $vt-c-divider-dark-1;
+
+  $color-heading: $vt-c-text-dark;
+  $color-text: $vt-c-text-dark;
+
+  // Зеленый для темной темы
+  $color-green: $vt-c-green;
+  $color-green-dark: $vt-c-green-dark;
+  $color-green-light: $vt-c-green-light;
+}
