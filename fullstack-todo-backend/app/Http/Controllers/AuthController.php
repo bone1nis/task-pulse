@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function __construct(Service $service)
     {
         $this->service = $service;
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -36,7 +36,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $cookie = cookie('token', $token, 60, null, null, true);
+
+        return response()->json(['message' => 'Logged in successfully'])
+            ->cookie($cookie);
     }
 
     /**
@@ -58,7 +61,9 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        $cookie = cookie('token', null, -1);
+
+        return response()->json(['message' => 'Successfully logged out'])->cookie($cookie);
     }
 
     /**
@@ -78,7 +83,10 @@ class AuthController extends Controller
         $user = $this->service->createUser($data);
         $token = $this->service->generateToken($user);
 
-        return $this->respondWithToken($token);
+        $cookie = cookie('token', $token, 60, null, null, true);
+
+        return response()->json(['message' => 'Registered and logged in successfully'])
+            ->cookie($cookie);
     }
 
     /**

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import AppBar from "@/components/AppBar.vue";
+import DefaultLayout from '@/core/views/DefaultLayout.vue'
 </script>
 
 <template>
-  <AppBar />
-  <RouterView />
+  <DefaultLayout>
+    <RouterView />
+  </DefaultLayout>
 </template>
 
 <style scoped></style>

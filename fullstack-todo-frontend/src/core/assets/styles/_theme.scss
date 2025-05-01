@@ -1,0 +1,76 @@
+@import "variables";
+
+// Светлая тема
+$color-background: $vt-c-white;
+$color-background-soft: $vt-c-white-soft;
+$color-background-mute: $vt-c-white-mute;
+
+$color-border: $vt-c-divider-light-2;
+$color-border-hover: $vt-c-divider-light-1;
+
+$color-heading: $vt-c-green-dark;
+
+$color-white: $vt-c-white;
+$color-white-soft: $vt-c-white-soft;
+$color-white-mute: $vt-c-white-mute;
+
+$color-green: $vt-c-green;
+$color-green-dark: $vt-c-green-dark;
+$color-green-light: $vt-c-green-light;
+
+$color-error: $vt-c-error;
+$color-error-light: $vt-c-error-light;
+$color-error-dark: $vt-c-error-dark;
+
+$color-gray-light: #f5f5f5;
+$color-gray: #d9d9d9;
+$color-gray-dark: #676565;
+
+$color-blue: #3b82f6;
+$color-blue-light: #93c5fd;
+$color-blue-dark: #1e40af;
+
+$color-yellow: #facc15;
+$color-yellow-light: #fef08a;
+$color-yellow-dark: #ca8a04;
+
+$color-text: $vt-c-text-light;
+$color-text-secondary: $color-gray-dark;
+
+$gap-none: 0px;
+$gap-small: 8px;
+$gap-medium: 16px;
+$gap-large: 32px;
+$gap-xlarge: 64px;
+$gap-xxlarge: 128px;
+
+$font-size-small: 14px;
+$font-size-base: 16px;
+$font-size-medium: 18px;
+$font-size-large: 20px;
+$font-size-xlarge: 22px;
+$font-size-xxlarge: 28px;
+
+$font-size-heading: $font-size-xxlarge;
+$font-size-subheading: $font-size-large;
+$font-size-paragraph: $font-size-medium;
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
+
+$container-max-width: 1200px;
+
+@media (prefers-color-scheme: dark) {
+  $color-background: #121212;
+  $color-background-soft: #1d1d1d;
+  $color-background-mute: #222222;
+
+  $color-border: $vt-c-divider-dark-2;
+  $color-border-hover: $vt-c-divider-dark-1;
+
+  $color-heading: $vt-c-text-dark;
+  $color-text: $vt-c-text-dark;
+  $color-text-secondary: $color-gray-light;
+}

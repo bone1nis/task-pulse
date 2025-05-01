@@ -19,9 +19,7 @@ class Service
         $data['password'] = $this->hashPassword($data['password']);
         $data['role'] = $this->getDefaultRole();
 
-        $user = User::create($data);
-
-        return $user;
+        return User::create($data);
     }
 
     public function hashPassword(string $password): string
