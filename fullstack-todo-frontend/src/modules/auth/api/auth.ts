@@ -1,5 +1,5 @@
-import api from './axios'
-import type { LoginValues, RegisterValues } from '@/core/types/auth.ts'
+import api from '../../../core/api/axios.ts'
+import type { LoginValues, RegisterValues } from '@/modules/auth/types/auth.ts'
 
 export const login = async (values: LoginValues) => {
   try {

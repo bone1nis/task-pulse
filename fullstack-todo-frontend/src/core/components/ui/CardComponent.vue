@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue';
-import ButtonComponent from '@/core/components/ui/ButtonComponent.vue';
+import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
+import ButtonComponent from '@/core/components/ui/ButtonComponent.vue'
+import type { Action } from '@/core/types/action.ts'
 
 defineProps<{
-  title: string;
-  content: string;
-  actions: { label: string; handler: () => void }[];
-}>();
+  title: string
+  content: string
+  actions: Action[]
+}>()
 </script>
 
 <template>
   <div class="card">
-    <div class="card-header">
+    <div class="card__header">
       <TypographyComponent variant="heading">{{ title }}</TypographyComponent>
+      <slot name="header" />
     </div>
-    <div class="card-body">
+    <div class="card__body">
       <TypographyComponent variant="paragraph">{{ content }}</TypographyComponent>
-      <slot />
+      <slot name="content" />
     </div>
 
-    <div class="card-footer">
-      <div class="card-actions">
-        <ButtonComponent v-for="(action, index) in actions" :key="index" @click="action.handler">
+    <div class="card__footer">
+      <div class="card__actions">
+        <ButtonComponent
+          v-for="(action, index) in actions"
+          :key="index"
+          @click="action.handler"
+          :variant="action.variant"
+        >
           {{ action.label }}
         </ButtonComponent>
       </div>
@@ -33,32 +40,32 @@ defineProps<{
 @import '@/core/assets/styles/theme.scss';
 
 .card {
-  background-color: $color-background-mute;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background-mute);
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: $spacing-md;
 }
 
-.card-header {
-  background-color: $color-background-soft;
-  padding: 15px;
-  border-bottom: 1px solid $color-white;
+.card__header {
+  background-color: var(--color-background-soft);
+  padding: $spacing-md;
+  border-bottom: $border-thin solid $color-white;
 }
 
-.card-body {
-  padding: 15px;
+.card__body {
+  padding: $spacing-md;
 }
 
-.card-footer {
-  background-color: $color-background-mute;
-  padding: 10px;
-  border-top: 1px solid $color-white;
+.card__footer {
+  background-color: var(--color-background-soft);
+  padding: $spacing-sm;
+  border-top: $border-thin solid $color-white;
   text-align: right;
 }
 
-.card-actions {
+.card__actions {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
 }
 </style>

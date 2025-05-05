@@ -5,7 +5,7 @@ import ContentWrapper from '@/core/components/ContentWrapper.vue'
 
 <template>
   <AppBar />
-  <ContentWrapper as="main">
+  <ContentWrapper as="main" padding="medium">
     <slot />
   </ContentWrapper>
 </template>

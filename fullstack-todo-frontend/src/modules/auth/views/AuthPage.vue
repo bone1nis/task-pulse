@@ -21,8 +21,10 @@ const isLogin = computed(() => route.path === "/auth/login");
 </template>
 
 <style scoped lang="scss">
+@import '@/core/assets/styles/theme.scss';
+
 .auth-switch {
-  margin-top: 20px;
+  margin-top: $spacing-lg;
   text-align: center;
 }
 </style>

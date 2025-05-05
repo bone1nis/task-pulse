@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import * as yup from 'yup'
 import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { register } from '@/core/api/auth.ts'
-import { ref } from 'vue'
-import { useAuthStore } from '@/core/stores/auth.ts'
+import { register } from '@/modules/auth/api/auth.ts'
+import { useAuthStore } from '@/modules/auth/stores/auth.ts'
 import { useRouter } from 'vue-router'
-import type { RegisterValues } from '@/core/types/auth.ts'
+import type { RegisterValues } from '@/modules/auth/types/auth.ts'
+import { useLoadingState } from '@/core/composables/useLoadingState.ts'
 
-const isLoading = ref(false)
-const errorMessage = ref('')
+const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoadingState()
 
 const authStore = useAuthStore()
-const router = useRouter();
+const router = useRouter()
 
 const fields = [
   {
@@ -67,18 +66,18 @@ const validationSchema = yup.object({
 })
 
 const submitForm = async (values: RegisterValues) => {
-  isLoading.value = true
-  errorMessage.value = ''
+  setLoadingState(true)
+  setErrorMessage('')
 
   try {
     const data = await register(values)
     authStore.setUser(data)
 
-    await router.push({ name: 'tasks' });
+    await router.push({ name: 'tasks' })
   } catch (error) {
-    errorMessage.value = error.message
+    setErrorMessage(error.message)
   } finally {
-    isLoading.value = false
+    setLoadingState(false)
   }
 }
 </script>

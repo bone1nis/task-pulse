@@ -42,7 +42,7 @@ import LinkComponent from '@/core/components/ui/LinkComponent.vue'
     flex-direction: column;
     gap: $gap-medium;
     text-align: center;
-    padding: 0 20px;
+    padding: 0 $spacing-lg;
     max-width: 600px;
   }
 
@@ -54,7 +54,7 @@ import LinkComponent from '@/core/components/ui/LinkComponent.vue'
     margin: 0;
 
     li {
-      margin-bottom: 6px;
+      margin-bottom: $spacing-xs;
     }
   }
 

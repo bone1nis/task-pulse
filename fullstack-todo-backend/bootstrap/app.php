@@ -3,6 +3,7 @@
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -47,6 +48,12 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->renderable(function (UnauthorizedHttpException $e, $request) {
+            return response()->json([
+                'message' => "Unauthorized."
+            ], 404);
+        });
+
+        $exceptions->renderable(function (AuthenticationException $e, $request) {
             return response()->json([
                 'message' => "Unauthorized."
             ], 404);

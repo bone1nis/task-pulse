@@ -19,6 +19,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@vee-validate/yup": "^4.15.0",
+    "@vueform/multiselect": "^2.6.11",
+    "@vueform/toggle": "^2.1.4",
     "axios": "^1.9.0",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",

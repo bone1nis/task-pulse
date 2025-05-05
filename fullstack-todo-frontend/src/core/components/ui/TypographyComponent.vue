@@ -20,7 +20,7 @@ defineProps<{
       'typography',
       variant ? `typography--${variant}` : '',
       align ? `typography--align-${align}` : '',
-      color ? `typography--${color}` : '',
+      color ? `typography--color-${color}` : '',
       fontWeight ? `typography--font-${fontWeight}` : '',
       spacing ? `typography--spacing-${spacing}` : '',
     ]"
@@ -52,7 +52,7 @@ defineProps<{
     font-size: $font-size-large;
     font-style: italic;
     font-weight: $font-weight-regular;
-    margin-left: 20px;
+    margin-left: $spacing-lg;
   }
 
   &--caption {
@@ -72,23 +72,23 @@ defineProps<{
     text-align: right;
   }
 
-  &--green {
+  &--color-green {
     color: $color-green;
   }
 
-  &--error {
+  &--color-error {
     color: $color-error;
   }
 
-  &--gray {
+  &--color-gray {
     color: $color-gray;
   }
 
-  &--blue {
+  &--color-blue {
     color: $color-blue;
   }
 
-  &--yellow {
+  &--color-yellow {
     color: $color-yellow;
   }
 
@@ -109,19 +109,19 @@ defineProps<{
   }
 
   &--spacing-none {
-    margin-bottom: 0;
+    margin-bottom: $spacing-none;
   }
 
   &--spacing-small {
-    margin-bottom: 8px;
+    margin-bottom: $spacing-xs;
   }
 
   &--spacing-medium {
-    margin-bottom: 16px;
+    margin-bottom: $spacing-md;
   }
 
   &--spacing-large {
-    margin-bottom: 24px;
+    margin-bottom: $spacing-lg;
   }
 }
 </style>

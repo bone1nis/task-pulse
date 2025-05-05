@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import * as yup from 'yup'
 import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { ref } from 'vue'
-import { useAuthStore } from '@/core/stores/auth.ts'
-import { login } from '@/core/api/auth.ts'
+import { useAuthStore } from '@/modules/auth/stores/auth.ts'
+import { login } from '@/modules/auth/api/auth.ts'
 import { useRouter } from 'vue-router'
-import type { LoginValues } from '@/core/types/auth.ts'
+import type { LoginValues } from '@/modules/auth/types/auth.ts'
+import { useLoadingState } from '@/core/composables/useLoadingState.ts'
 
-const isLoading = ref(false)
-const errorMessage = ref('')
+const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoadingState()
 
 const authStore = useAuthStore()
-const router = useRouter();
+const router = useRouter()
 
 const fields = [
   { name: 'email', label: 'Электронная почта', placeholder: 'Введите вашу почту' },
-  { name: 'password', type: 'password', label: 'Пароль', placeholder: 'Введите ваш пароль' },
+  { name: 'password', type: 'password', label: 'Пароль', placeholder: 'Введите пароль' },
 ]
 
 const validationSchema = yup.object({
@@ -24,18 +23,18 @@ const validationSchema = yup.object({
 })
 
 const submitForm = async (values: LoginValues) => {
-  isLoading.value = true
-  errorMessage.value = ''
+  setLoadingState(true)
+  setErrorMessage('')
 
   try {
     const data = await login(values)
     authStore.setUser(data)
 
-    await router.push({ name: 'tasks' });
+    await router.push({ name: 'tasks' })
   } catch (error) {
-    errorMessage.value = error.message
+    setErrorMessage(error.message)
   } finally {
-    isLoading.value = false
+    setLoadingState(false)
   }
 }
 </script>

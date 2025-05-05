@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { Field, ErrorMessage } from 'vee-validate'
 import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
+import type { InputField } from '@/core/types/field.ts'
 
-defineProps<{
-  name: string
-  label: string
-  type?: string
-  placeholder?: string
-  disabled?: boolean
-}>()
+defineProps<InputField>()
 </script>
 
 <template>
@@ -16,15 +11,16 @@ defineProps<{
     <TypographyComponent :for="name" variant="subheading" spacing="small">
       {{ label }}
     </TypographyComponent>
-    <Field
-      :name="name"
-      :id="name"
-      :type="type || 'text'"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      class="form__input"
-      as="input"
-    />
+    <Field :name="name" v-slot="{ field }">
+      <input
+        :type="type || 'text'"
+        :id="name"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        v-bind="field"
+        class="form__input"
+      />
+    </Field>
     <ErrorMessage :name="name" class="form__error" />
   </div>
 </template>
@@ -36,17 +32,17 @@ defineProps<{
   &__group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 25px;
+    margin-bottom: $spacing-lg;
   }
 
   &__input {
-    padding: 12px;
+    padding: $spacing-md;
     font-size: $font-size-medium;
-    border: 1px solid $color-border;
-    border-radius: 4px;
+    border: $border-thin solid var(--color-background-mute);
+    border-radius: $radius-md;
     outline: none;
     transition: border-color 0.3s;
-    margin-bottom: 5px;
+    margin-bottom: $spacing-xxs;
 
     &:focus {
       border-color: $color-green-light;
@@ -55,7 +51,7 @@ defineProps<{
 
   &__error {
     color: $color-error;
-    margin-top: 5px;
+    margin-top: $spacing-xxs;
   }
 }
 </style>

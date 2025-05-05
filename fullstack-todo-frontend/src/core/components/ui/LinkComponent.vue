@@ -37,11 +37,10 @@ defineProps<{
 @import '@/core/assets/styles/theme.scss';
 
 .link {
-  text-decoration: none;
   transition: color 0.3s ease;
 
   &--primary {
-    color: $color-text;
+    color: var(--color-text);
     font-weight: $font-weight-regular;
 
     &:hover {
@@ -50,11 +49,11 @@ defineProps<{
   }
 
   &--secondary {
-    color: $color-text;
+    color: var(--color-text);
     font-weight: $font-weight-regular;
 
     &:hover {
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
     }
   }
 

@@ -1,22 +1,83 @@
-$vt-c-white: #ffffff; // Чисто белый
-$vt-c-white-soft: #f0f0f0; // Светлый белый для фона
-$vt-c-white-mute: #e0e0e0; // Мутный белый для более мягкого фона
+$color-text-light: #333333;
+$color-text-dark: #ffffff;
 
-$vt-c-green-light: #a8d08d; // Светлый зеленый для мягких акцентов
-$vt-c-green: #4caf50; // Основной зеленый для кнопок и ссылок
-$vt-c-green-dark: #388e3c; // Темный зеленый для выделений
-$vt-c-green-mute: #6dbf74; // Мутный зеленый для менее ярких акцентов
+$color-white: #ffffff;
+$color-white-soft: #f0f0f0;
+$color-white-mute: #e0e0e0;
 
-$vt-c-error: #e53935; // Основной красный для ошибок (яркий и заметный)
-$vt-c-error-light: #ffcdd2; // Светлый красный фон для ошибок
-$vt-c-error-dark: #b71c1c; // Темный красный для акцентов ошибок
+$color-black: #121212;
+$color-black-soft: #1d1d1d;
+$color-black-mute: #222222;
 
-$vt-c-text-light: #333333; // Темный текст для читаемости
-$vt-c-text-dark: #ffffff; // Белый текст на темном фоне
+$color-green: #4caf50;
+$color-green-dark: #388e3c;
+$color-green-light: #a8d08d;
 
-$vt-c-divider-light-1: rgba(0, 0, 0, 0.1); // Легкая тень для разделителей (темный фон)
-$vt-c-divider-light-2: rgba(0, 0, 0, 0.05); // Более светлая тень для разделителей
-$vt-c-divider-dark-1: rgba(255, 255, 255, 0.2); // Разделитель для темного фона
-$vt-c-divider-dark-2: rgba(255, 255, 255, 0.1); // Более светлый разделитель на темном фоне
+$color-error: #e53935;
+$color-error-light: #ffcdd2;
+$color-error-dark: #b71c1c;
 
-$section-gap: 120px; // Отступы между секциями
+$color-gray-light: #9e9b9b;
+$color-gray: #595858;
+$color-gray-dark: #403f3f;
+
+$color-blue: #3b82f6;
+$color-blue-light: #93c5fd;
+$color-blue-dark: #1e40af;
+
+$color-yellow: #facc15;
+$color-yellow-light: #fef08a;
+$color-yellow-dark: #ca8a04;
+
+$gap-none: 0px;
+$gap-small: 8px;
+$gap-medium: 16px;
+$gap-large: 32px;
+$gap-xlarge: 64px;
+$gap-xxlarge: 128px;
+
+$spacing-none: 0px;
+$spacing-xxs: 4px;
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+$radius-none: 0px;
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-full: 9999px;
+
+$border-thin: 1px;
+$border-medium: 2px;
+$border-thick: 4px;
+
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+$shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+
+$font-size-small: 14px;
+$font-size-base: 16px;
+$font-size-medium: 18px;
+$font-size-large: 20px;
+$font-size-xlarge: 22px;
+$font-size-xxlarge: 28px;
+
+$font-size-heading: $font-size-xxlarge;
+$font-size-subheading: $font-size-large;
+$font-size-paragraph: $font-size-medium;
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
+
+$container-max-width: 1200px;

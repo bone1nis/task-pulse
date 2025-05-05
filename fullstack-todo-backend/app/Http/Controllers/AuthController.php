@@ -73,7 +73,11 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        $token = auth()->refresh();
+
+        $cookie = cookie('token', $token, auth()->factory()->getTTL(), null, null, true, true, false, 'Strict');
+
+        return response()->json(['message' => 'Token refreshed'])->cookie($cookie);
     }
 
     public function register(RegisterRequest $request)

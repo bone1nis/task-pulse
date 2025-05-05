@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import LinkComponent from '@/core/components/ui/LinkComponent.vue'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faUser } from '@fortawesome/free-solid-svg-icons'
+import ButtonComponent from '@/core/components/ui/ButtonComponent.vue'
+import { useThemeStore } from '@/modules/theme/stores/theme.ts'
+
+const themeStore = useThemeStore()
+
+const toggleTheme = () => {
+  themeStore.toggleTheme()
+}
 </script>
 
 <template>
@@ -11,9 +19,14 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
       <LinkComponent to="/auth" font-weight="bold" size="large">Вход</LinkComponent>
     </nav>
 
-    <LinkComponent to="/profile" size="large">
-      <FontAwesomeIcon :icon="faUser"/>
-    </LinkComponent>
+    <div class="appbar__actions">
+      <ButtonComponent @click="toggleTheme" variant="icon" size="none">
+        <FontAwesomeIcon :icon="faSun" size="xl"  />
+      </ButtonComponent>
+      <LinkComponent to="/profile" size="large">
+        <FontAwesomeIcon :icon="faUser" size="xl" />
+      </LinkComponent>
+    </div>
   </header>
 </template>
 
@@ -21,15 +34,22 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 @import '@/core/assets/styles/theme.scss';
 
 .appbar {
-  background-color: $color-background;
-  color: $color-text;
-  padding: 10px 20px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: $spacing-sm $spacing-lg;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: $border-thin solid $color-green;
 
   &__nav {
     display: flex;
+    gap: $gap-medium;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
     gap: $gap-medium;
   }
 }

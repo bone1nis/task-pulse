@@ -2,9 +2,9 @@
 defineProps<{
   type?: 'button' | 'submit' | 'reset'
   block?: boolean
-  variant?: 'primary' | 'secondary' | 'outline' | 'text'
-  size?: 'small' | 'medium' | 'large'
-  color?: 'green' | 'error' | 'gray'
+  variant?: 'primary' | 'secondary' | 'outline' | 'text' | 'icon'
+  size?: 'none' | 'small' | 'medium' | 'large'
+  color?: 'green' | 'error' | 'gray' | 'yellow' | 'blue'
   disabled?: boolean
 }>()
 </script>
@@ -16,8 +16,8 @@ defineProps<{
       'btn',
       variant ? `btn--${variant}` : 'btn--primary',
       size ? `btn--${size}` : 'btn--medium',
-      color ? `btn--${color}` : 'btn--green',
-      { 'btn--block': block, 'btn--disabled': disabled }
+      color ? `btn--color-${color}` : 'btn--green',
+      { 'btn--block': block, 'btn--disabled': disabled },
     ]"
     :disabled="disabled"
     v-bind="$attrs"
@@ -30,15 +30,13 @@ defineProps<{
 @import '@/core/assets/styles/theme.scss';
 
 .btn {
-  padding: 14px;
+  padding: $spacing-sm;
   font-size: $font-size-large;
   background-color: $color-green;
   color: $color-white;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-  font-weight: bold;
-  cursor: pointer;
+  border-radius: $radius-sm;
+  transition: all 0.3s;
+  font-weight: $font-weight-bold;
 
   &:hover {
     background-color: $color-green-dark;
@@ -65,11 +63,24 @@ defineProps<{
     &:hover {
       background-color: $color-gray-dark;
     }
+
+    &:disabled {
+      background-color: $color-gray-light;
+    }
+  }
+
+  &--error {
+    background-color: $color-error;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-error-dark;
+    }
   }
 
   &--outline {
     background-color: transparent;
-    border: 2px solid $color-green;
+    border: $border-medium solid $color-green;
     color: $color-green;
 
     &:hover {
@@ -87,33 +98,61 @@ defineProps<{
     }
   }
 
+  &--icon {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    line-height: 0;
+    color: inherit;
+
+    &:hover {
+      background-color: transparent;
+      color: $color-green;
+    }
+  }
+
+  &--none {
+    padding: $spacing-none;
+  }
+
   &--small {
-    padding: 8px 16px;
+    padding: $spacing-xs $spacing-md;
     font-size: $font-size-small;
   }
 
   &--medium {
-    padding: 12px 24px;
+    padding: $spacing-sm $spacing-lg;
     font-size: $font-size-medium;
   }
 
   &--large {
-    padding: 16px 32px;
+    padding: $spacing-md $spacing-xl;
     font-size: $font-size-large;
   }
 
-  &--green {
+  &--color-green {
     background-color: $color-green;
     color: $color-white;
   }
 
-  &--error {
+  &--color-error {
     background-color: $color-error;
     color: $color-white;
   }
 
-  &--gray {
+  &--color-gray {
     background-color: $color-gray;
+    color: $color-white;
+  }
+
+  &--color-yellow {
+    background-color: $color-yellow;
+    color: $color-white;
+  }
+
+  &--color-blue {
+    background-color: $color-blue;
     color: $color-white;
   }
 

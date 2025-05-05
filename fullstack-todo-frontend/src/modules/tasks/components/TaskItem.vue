@@ -1,74 +1,79 @@
 <script setup lang="ts">
 import CardComponent from '@/core/components/ui/CardComponent.vue'
-import type { Task } from '@/core/types/task.ts'
+import type { Task } from '@/modules/tasks/types/task.ts'
 import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
+import { useDateFormatter } from '@/core/composables/useDateFormatter.ts'
+import { useTaskActions } from '@/modules/tasks/composables/useTaskActions.ts'
 
-const actions = [
-  {
-    label: 'Удалить',
-    handler: () => console.log('Удалить задачу'),
-  },
-]
+const props = defineProps<{
+  task: Task
+  isSingleView?: boolean
+}>()
 
-const task: Task = {
-  id: 1,
-  title: 'Тудушка',
-  content: 'Задача, которую нужно выполнить',
-  category: {
-    name: 'Работа',
-    id: 1,
-  },
-  dueDate: '2025-05-10',
-  createdAt: '2025-04-10',
-  updatedAt: '2025-04-15',
-  isCompleted: false,
-  tags: [
-    {
-      name: 'да',
-      id: 1,
-    },
-    {
-      name: 'нет',
-      id: 2,
-    },
-  ],
-}
+const { task, isSingleView } = props
+
+const { formatDate } = useDateFormatter()
+
+const actions = useTaskActions(task.id, isSingleView ?? false)
 </script>
 
 <template>
-  <CardComponent :title="task.title" :content="task.content" :actions="actions">
-    <div v-if="task.category" class="task-category">
-      <TypographyComponent variant="paragraph">Категория: {{ task.category.name }}</TypographyComponent>
-    </div>
-    <div v-if="task.tags && task.tags.length" class="task-tags">
-      <TypographyComponent v-for="tag in task.tags" :key="tag.id" color="blue">
-        {{ tag.name }}
+  <CardComponent :title="task.title" :content="task.description" :actions="actions">
+    <template #header>
+      <TypographyComponent variant="paragraph">
+        Категория: {{ task.category.name }}
       </TypographyComponent>
-    </div>
-    <div class="task-status">
-      <TypographyComponent>
-        Статус:
-        <TypographyComponent :as="span" :color="task.isCompleted ? 'green' : 'yellow'">
-          {{ task.isCompleted ? 'Завершено' : 'В процессе' }}
+      <div v-if="task.tags?.length" class="task__tags">
+        <TypographyComponent v-for="tag in task.tags" :key="tag.id" color="blue">
+          #{{ tag.name }}
         </TypographyComponent>
-      </TypographyComponent>
-    </div>
-    <div v-if="task.dueDate" class="task-due-date">
-      <TypographyComponent> Дата выполнения: {{ task.dueDate }}</TypographyComponent>
-      <TypographyComponent> Дата создания: {{ task.createdAt }}</TypographyComponent>
-      <TypographyComponent> Дата обновления: {{ task.updatedAt }}</TypographyComponent>
-    </div>
+      </div>
+    </template>
+    <template #content>
+      <div class="task__content">
+        <TypographyComponent>
+          Статус:
+          <TypographyComponent as="span" :color="task.isCompleted ? 'green' : 'yellow'">
+            {{ task.isCompleted ? 'Завершено' : 'В процессе' }}
+          </TypographyComponent>
+        </TypographyComponent>
+        <div v-if="task.dueDate" class="task__dates">
+          <TypographyComponent>
+            Дата создания: {{ formatDate(task.createdAt) }}
+          </TypographyComponent>
+          <TypographyComponent>
+            Дата обновления: {{ formatDate(task.updatedAt) }}
+          </TypographyComponent>
+          <TypographyComponent>
+            Дата выполнения: {{ formatDate(task.dueDate) }}
+          </TypographyComponent>
+        </div>
+      </div>
+    </template>
   </CardComponent>
 </template>
 
 <style scoped lang="scss">
 @import '@/core/assets/styles/theme.scss';
 
-.task-category {
-  margin-top: 10px;
+.task__content {
+  margin-top: $spacing-sm;
 }
 
-.task-status {
-  margin-top: 10px;
+.task__tags {
+  display: flex;
+  gap: $gap-small;
+}
+
+.task__category {
+  margin-top: $spacing-sm;
+}
+
+.task__status {
+  margin-top: $spacing-sm;
+}
+
+.task__dates {
+  margin-top: $spacing-sm;
 }
 </style>

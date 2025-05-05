@@ -40,15 +40,15 @@ defineProps<{
   }
 
   &--padding-small {
-    padding: 10px;
+    padding: $spacing-sm;
   }
 
   &--padding-medium {
-    padding: 20px;
+    padding: $spacing-lg;
   }
 
   &--padding-large {
-    padding: 40px;
+    padding: $spacing-2xl;
   }
 
   &--align-left {
