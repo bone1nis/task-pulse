@@ -14,3 +14,5 @@ export interface Task {
 }
 
 export type TaskUpdate = Omit<Task, "id", "createdAt", "updatedAt">
+
+export type TaskCreate = Omit<Task, "id", "createdAt", "updatedAt", "isCompleted">

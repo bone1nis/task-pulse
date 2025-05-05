@@ -18,7 +18,11 @@ const actions = useTaskActions(task.id, isSingleView ?? false)
 </script>
 
 <template>
-  <CardComponent :title="task.title" :content="task.description" :actions="actions">
+  <CardComponent
+    :title="isSingleView ? `${task.id} - ${task.title}` : task.title"
+    :content="task.description"
+    :actions="actions"
+  >
     <template #header>
       <TypographyComponent variant="paragraph">
         Категория: {{ task.category.name }}
@@ -41,7 +45,7 @@ const actions = useTaskActions(task.id, isSingleView ?? false)
           <TypographyComponent>
             Дата создания: {{ formatDate(task.createdAt) }}
           </TypographyComponent>
-          <TypographyComponent>
+          <TypographyComponent v-if="isSingleView">
             Дата обновления: {{ formatDate(task.updatedAt) }}
           </TypographyComponent>
           <TypographyComponent>

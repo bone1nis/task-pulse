@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
-import type { Task, TaskUpdate } from '@/modules/tasks/types/task.ts'
-import { fetchTasks, updateTask, deleteTask, getTaskById } from '@/modules/tasks/api/task.ts'
+import type { Task, TaskCreate, TaskUpdate } from '@/modules/tasks/types/task.ts'
+import {
+  fetchTasks,
+  updateTask,
+  deleteTask,
+  getTaskById,
+  createTask,
+} from '@/modules/tasks/api/task.ts'
 import { normalizeTask } from '@/modules/tasks/utils/normalizeTask'
 
 interface TasksState {
@@ -85,6 +91,20 @@ export const useTasksStore = defineStore('tasks', {
         }
       } catch (error) {
         console.error('Ошибка при обновлении задачи:', error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+    async createTask(newTaskData: TaskCreate) {
+      this.isLoading = true
+
+      try {
+        const response = await createTask(newTaskData)
+        const normalizedTask = normalizeTask(response.data)
+
+        this.tasks.push(normalizedTask)
+      } catch (error) {
+        console.error('Ошибка при создании задачи:', error)
       } finally {
         this.isLoading = false
       }

@@ -6,23 +6,33 @@ import LinkComponent from '@/core/components/ui/LinkComponent.vue'
 <template>
   <div class="home-page">
     <div class="home-page__content">
-      <TypographyComponent variant="heading" color="green"> Task Pulse </TypographyComponent>
+      <TypographyComponent variant="heading" color="green"> Task Pulse</TypographyComponent>
 
-      <TypographyComponent variant="subheading">
+      <TypographyComponent variant="heading">
         Организуйте свои задачи легко и быстро
       </TypographyComponent>
 
-      <TypographyComponent> Лучшее приложение для заметок с авторизацией </TypographyComponent>
+      <TypographyComponent variant="subheading"> Лучшее приложение для заметок с авторизацией</TypographyComponent>
 
       <ul class="home-page__features">
-        <li>Удобное создание и редактирование задач</li>
-        <li>Авторизация и роли пользователей</li>
-        <li>Панель администратора</li>
+        <TypographyComponent as="li" variant="paragraph">
+          Удобное создание и редактирование задач
+        </TypographyComponent>
+        <TypographyComponent as="li" variant="paragraph">
+          Авторизация и роли пользователей
+        </TypographyComponent>
+        <TypographyComponent as="li" variant="paragraph">
+          Панель администратора
+        </TypographyComponent>
       </ul>
 
       <div class="home-page__actions">
-        <LinkComponent to="/auth/register" variant="primary" font-weight="bold"> Регистрация </LinkComponent>
-        <LinkComponent to="/auth/login" variant="secondary" font-weight="bold" color="green" > Вход </LinkComponent>
+        <LinkComponent to="/auth/register" variant="primary" font-weight="bold" size="large">
+          Регистрация
+        </LinkComponent>
+        <LinkComponent to="/auth/login" variant="secondary" font-weight="bold" color="green" size="large">
+          Вход
+        </LinkComponent>
       </div>
     </div>
   </div>
@@ -43,7 +53,7 @@ import LinkComponent from '@/core/components/ui/LinkComponent.vue'
     gap: $gap-medium;
     text-align: center;
     padding: 0 $spacing-lg;
-    max-width: 600px;
+    max-width: 700px;
   }
 
   &__features {

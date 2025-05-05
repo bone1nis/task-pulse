@@ -5,8 +5,8 @@ import type { Action } from '@/core/types/action.ts'
 
 defineProps<{
   title: string
-  content: string
-  actions: Action[]
+  content?: string
+  actions?: Action[]
 }>()
 </script>
 
@@ -17,12 +17,12 @@ defineProps<{
       <slot name="header" />
     </div>
     <div class="card__body">
-      <TypographyComponent variant="paragraph">{{ content }}</TypographyComponent>
+      <TypographyComponent variant="paragraph" v-if="content">{{ content }}</TypographyComponent>
       <slot name="content" />
     </div>
 
     <div class="card__footer">
-      <div class="card__actions">
+      <div class="card__actions" v-if="actions">
         <ButtonComponent
           v-for="(action, index) in actions"
           :key="index"

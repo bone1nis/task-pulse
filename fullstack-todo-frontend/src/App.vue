@@ -2,13 +2,16 @@
 import { RouterView } from 'vue-router'
 import DefaultLayout from '@/core/views/DefaultLayout.vue'
 import { useThemeStore } from '@/modules/theme/stores/theme.ts'
+import { useAuthStore } from '@/modules/auth/stores/auth.ts'
 import { onMounted } from 'vue'
 import SpinnerComponent from '@/core/components/ui/SpinnerComponent.vue'
 
 const themeStore = useThemeStore()
+const authStore = useAuthStore()
 
 onMounted(() => {
   themeStore.applyTheme()
+  authStore.fetchUser()
 })
 </script>
 
@@ -16,9 +19,15 @@ onMounted(() => {
   <Suspense>
     <template #default>
       <DefaultLayout>
-        <RouterView />
+        <template v-if="!authStore.isLoading">
+          <RouterView />
+        </template>
+        <template v-else>
+          <SpinnerComponent />
+        </template>
       </DefaultLayout>
     </template>
+
     <template #fallback>
       <SpinnerComponent />
     </template>

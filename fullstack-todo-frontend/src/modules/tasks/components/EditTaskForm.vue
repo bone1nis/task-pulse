@@ -34,7 +34,6 @@ const fields = computed(() => [
     name: 'category',
     label: 'Выберите категорию',
     as: 'select',
-    multiselect: false,
     options: categoryOptions.value,
   },
   {

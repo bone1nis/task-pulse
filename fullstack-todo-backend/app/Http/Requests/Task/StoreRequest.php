@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
         return [
             "title" => "required|string",
             "description" => "nullable|string",
-            "is_completed" => "required|boolean",
+            "is_completed" => "nullable|boolean",
             "due_date" => "nullable|date",
             "tags" => "nullable|array",
             "tags.*" => "integer|exists:tags,id",

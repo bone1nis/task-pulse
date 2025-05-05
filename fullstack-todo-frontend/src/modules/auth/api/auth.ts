@@ -36,10 +36,8 @@ export const register = async (values: RegisterValues) => {
       middlename: values.middleName || null,
     }
 
-    console.log(payload);
-
-    const response = await api.post('/auth/register', payload)
-
+    await api.post('/auth/register', payload)
+    const response = await api.post('/auth/me')
     return response.data
   } catch (error) {
     if (error.response?.status === 422) {
@@ -48,4 +46,9 @@ export const register = async (values: RegisterValues) => {
 
     throw new Error('Не удалось зарегистрироваться. Попробуйте позже')
   }
+}
+
+export const me = async () => {
+  const response = await api.post('/auth/me')
+  return response.data
 }
