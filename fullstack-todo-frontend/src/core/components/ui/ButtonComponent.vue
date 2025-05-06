@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 defineProps<{
   type?: 'button' | 'submit' | 'reset'
   block?: boolean
   variant?: 'primary' | 'secondary' | 'outline' | 'text' | 'icon'
   size?: 'none' | 'small' | 'medium' | 'large'
   color?: 'green' | 'error' | 'gray' | 'yellow' | 'blue'
+  spacing?: 'small' | 'medium' | 'large'
   disabled?: boolean
 }>()
+
+const buttonEl = ref<HTMLButtonElement | null>(null)
+defineExpose({ buttonEl })
 </script>
 
 <template>
@@ -17,10 +23,12 @@ defineProps<{
       variant ? `btn--${variant}` : 'btn--primary',
       size ? `btn--${size}` : 'btn--medium',
       color ? `btn--color-${color}` : 'btn--green',
+      spacing && `btn--spacing-${spacing}`,
       { 'btn--block': block, 'btn--disabled': disabled },
     ]"
     :disabled="disabled"
     v-bind="$attrs"
+    ref="buttonEl"
   >
     <slot />
   </button>
@@ -160,6 +168,18 @@ defineProps<{
     background-color: $color-gray-light;
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+  &--spacing-small {
+    margin: $spacing-xs 0;
+  }
+
+  &--spacing-medium {
+    margin: $spacing-md 0;
+  }
+
+  &--spacing-large {
+    margin: $spacing-lg 0;
   }
 }
 </style>

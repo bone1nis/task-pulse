@@ -2,7 +2,6 @@ import axios from '@/core/api/axios.ts'
 import type { Task, TaskCreate, TaskQueryParams, TaskUpdate } from '@/modules/tasks/types/task.ts'
 
 export const fetchTasks = async (params: TaskQueryParams = {}) => {
-  console.log(params)
   const response = await axios.get('/tasks', { params })
   return response.data
 }

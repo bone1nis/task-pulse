@@ -32,10 +32,14 @@ export const useTasksStore = defineStore('tasks', {
       const normalizedFilters = {
         title: filters.title,
         description: filters.description,
-        is_completed: filters.isCompleted ? 1 : 0,
-        due_date: filters.dueDate,
+        due_date_from: filters.dueDateFrom,
+        due_date_to: filters.dueDateTo,
         tags: filters.tags,
         category_id: filters.category,
+      }
+
+      if (filters.isCompleted !== undefined) {
+        normalizedFilters.is_completed = filters.isCompleted ? 1 : 0
       }
 
       try {

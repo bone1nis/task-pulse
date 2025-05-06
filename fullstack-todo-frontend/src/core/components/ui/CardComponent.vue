@@ -45,27 +45,32 @@ defineProps<{
   box-shadow: $shadow-sm;
   overflow: hidden;
   margin-bottom: $spacing-md;
-}
 
-.card__header {
-  background-color: var(--color-background-soft);
-  padding: $spacing-md;
-  border-bottom: $border-thin solid $color-white;
-}
+  &__header {
+    background-color: var(--color-background-soft);
+    padding: $spacing-md;
+    border-bottom: $border-thin solid $color-white;
+  }
 
-.card__body {
-  padding: $spacing-md;
-}
+  &__body {
+    padding: $spacing-md;
+  }
 
-.card__footer {
-  background-color: var(--color-background-soft);
-  padding: $spacing-sm;
-  border-top: $border-thin solid $color-white;
-  text-align: right;
-}
+  &__footer {
+    background-color: var(--color-background-soft);
+    padding: $spacing-sm;
+    border-top: $border-thin solid $color-white;
+    text-align: right;
+  }
 
-.card__actions {
-  display: flex;
-  justify-content: space-between;
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: $breakpoint-md) {
+      flex-direction: column;
+      gap: $gap-medium;
+    }
+  }
 }
 </style>

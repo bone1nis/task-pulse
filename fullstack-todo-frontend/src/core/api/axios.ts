@@ -7,10 +7,10 @@ const api = axios.create({
 })
 
 let isRefreshing = false
-let subscribers: Array<() => void> = []
+let subscribers: () => void[] = []
 
 function onRefreshed() {
-  subscribers.forEach(callback => callback())
+  subscribers.forEach((callback) => callback())
   subscribers = []
 }
 
@@ -45,7 +45,7 @@ api.interceptors.response.use(
         onRefreshed()
         return api(originalRequest)
       } catch (err) {
-        authStore.logout()
+        authStore.clearUser()
         return Promise.reject(err)
       } finally {
         isRefreshing = false
@@ -53,7 +53,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  }
+  },
 )
 
 export default api

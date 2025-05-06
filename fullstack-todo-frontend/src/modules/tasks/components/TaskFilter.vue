@@ -13,7 +13,8 @@ const tasksStore = useTasksStore()
 const fields = computed(() => [
   { name: 'title', label: 'Заголовок', placeholder: 'Введите заголовок' },
   { name: 'description', label: 'Описание', placeholder: 'Введите описание' },
-  { name: 'dueDate', label: 'Срок окончания задачи', type: 'date' },
+  { name: 'dueDateFrom', label: 'Срок выполнения: от', type: 'date' },
+  { name: 'dueDateTo', label: 'Срок выполнения: до', type: 'date' },
   { name: 'isCompleted', label: 'Задача завершена', as: 'toggle' },
   {
     name: 'category',

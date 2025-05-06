@@ -17,13 +17,22 @@ export type TaskUpdate = Omit<Task, 'id', 'createdAt', 'updatedAt'>
 
 export type TaskCreate = Omit<Task, 'id', 'createdAt', 'updatedAt', 'isCompleted'>
 
-export type TaskFilters = Omit<Task, 'id', 'createdAt', 'updatedAt'>
+export type TaskFilters = {
+  title?: string
+  description?: string | null
+  isCompleted?: number
+  dueDateFrom?: string
+  dueDateTo?: string
+  categoryId?: number
+  tags?: string
+}
 
 export interface TaskQueryParams {
   title?: string
   description?: string | null
   is_completed?: number
-  due_date?: string
+  due_date_from?: string
+  due_date_to?: string
   category_id?: number
   tags?: string
 }

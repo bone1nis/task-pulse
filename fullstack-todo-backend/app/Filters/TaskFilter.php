@@ -20,12 +20,16 @@ class TaskFilter extends Filter
         return $this->builder->where('is_completed', $value);
     }
 
-    protected function dueDate(string $value): Builder
+    protected function dueDateFrom(string $value): Builder
     {
-        $start = CarbonImmutable::parse($value)->startOfDay();
-        $end = CarbonImmutable::parse($value)->endOfDay();
+        $from = CarbonImmutable::createFromFormat('Y-m-d', $value)->startOfDay();
+        return $this->builder->where('due_date', '>=', $from);
+    }
 
-        return $this->builder->whereBetween('due_date', [$start, $end]);
+    protected function dueDateTo(string $value): Builder
+    {
+        $to = CarbonImmutable::createFromFormat('Y-m-d', $value)->endOfDay();
+        return $this->builder->where('due_date', '<=', $to);
     }
 
     protected function categoryId(int $value): Builder
