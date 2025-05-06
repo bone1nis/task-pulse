@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Task, TaskCreate, TaskUpdate } from '@/modules/tasks/types/task.ts'
+import type { Task, TaskCreate, TaskFilters, TaskUpdate } from '@/modules/tasks/types/task.ts'
 import {
   fetchTasks,
   updateTask,
@@ -26,11 +26,26 @@ export const useTasksStore = defineStore('tasks', {
   }),
 
   actions: {
-    async fetchUserTasks(page = 1, limit = 10) {
+    async fetchUserTasks(page = 1, limit = 10, filters: TaskFilters = {}) {
       this.isLoading = true
 
+      const normalizedFilters = {
+        title: filters.title,
+        description: filters.description,
+        is_completed: filters.isCompleted ? 1 : 0,
+        due_date: filters.dueDate,
+        tags: filters.tags,
+        category_id: filters.category,
+      }
+
       try {
-        const response = await fetchTasks(page, limit)
+        const params = {
+          page,
+          per_page: limit,
+          ...normalizedFilters,
+        }
+
+        const response = await fetchTasks(params)
         this.tasks = response.data.map(normalizeTask)
 
         this.total = response.meta.total

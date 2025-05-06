@@ -13,6 +13,17 @@ export interface Task {
   tags: Tag[]
 }
 
-export type TaskUpdate = Omit<Task, "id", "createdAt", "updatedAt">
+export type TaskUpdate = Omit<Task, 'id', 'createdAt', 'updatedAt'>
 
-export type TaskCreate = Omit<Task, "id", "createdAt", "updatedAt", "isCompleted">
+export type TaskCreate = Omit<Task, 'id', 'createdAt', 'updatedAt', 'isCompleted'>
+
+export type TaskFilters = Omit<Task, 'id', 'createdAt', 'updatedAt'>
+
+export interface TaskQueryParams {
+  title?: string
+  description?: string | null
+  is_completed?: number
+  due_date?: string
+  category_id?: number
+  tags?: string
+}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TaskList from '@/modules/tasks/components/TaskList.vue'
 import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import PaginationComponent from '@/core/components/ui/PaginationComponent.vue'
 import SpinnerComponent from '@/core/components/ui/SpinnerComponent.vue'
 import ContentWrapper from '@/core/components/ContentWrapper.vue'
@@ -16,8 +16,8 @@ const onPageChange = (page: number) => {
   tasksStore.fetchUserTasks(page)
 }
 
-const hasTasks = tasksStore.tasks.length > 0
-const isLoading = tasksStore.isLoading
+const hasTasks = computed(() => tasksStore.tasks.length > 0)
+const isLoading = computed(() => tasksStore.isLoading)
 </script>
 
 <template>
@@ -25,6 +25,7 @@ const isLoading = tasksStore.isLoading
 
   <ContentWrapper v-else fluid>
     <ErrorMessage v-if="!hasTasks"> Задачи не найдены. Пожалуйста, добавьте задачу.</ErrorMessage>
+
     <TaskFilter v-if="hasTasks" />
     <TaskList v-if="hasTasks" :tasks="tasksStore.tasks" />
 

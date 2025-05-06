@@ -48,12 +48,10 @@ const fieldProps = (field: Field) => {
 </script>
 
 <template>
-  <div>
-    <component
-      v-for="field in fields"
-      :key="field.name"
-      :is="getFieldComponent(field)"
-      v-bind="fieldProps(field)"
-    />
-  </div>
+  <component
+    v-for="field in fields"
+    :key="field.name"
+    :is="getFieldComponent(field)"
+    v-bind="fieldProps(field)"
+  />
 </template>

@@ -14,6 +14,7 @@ defineProps<{
   submitText: string
   disabled?: boolean
   errorMessage?: string
+  variant?: 'inline'
 }>()
 
 const emit = defineEmits<{
@@ -26,13 +27,15 @@ const submitForm = (values) => {
 </script>
 
 <template>
-  <div class="form">
+  <div :class="['form', { 'form--block': variant !== 'inline' }]">
     <Form @submit="submitForm" :validation-schema="validationSchema" :initialValues="initialValues">
       <TypographyComponent as="h2" align="center" font-weight="bold" spacing="large"
         >{{ submitText }}
       </TypographyComponent>
 
-      <FormFields :fields="fields" />
+      <div :class="{ 'form__fields-inline': variant === 'inline' }">
+        <FormFields :fields="fields" />
+      </div>
 
       <ErrorMessage v-if="errorMessage">
         {{ errorMessage }}
@@ -49,11 +52,23 @@ const submitForm = (values) => {
 @import '@/core/assets/styles/theme.scss';
 
 .form {
-  max-width: 600px;
-  margin: 0 auto;
   padding: $spacing-xl;
   background-color: var(--color-background-soft);
   border-radius: $radius-md;
   box-shadow: $shadow-xs;
+  margin: $spacing-md 0;
+
+  &--block {
+    margin: $spacing-md auto;
+    max-width: 600px;
+  }
+
+  &__fields-inline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $gap-medium;
+  }
 }
 </style>

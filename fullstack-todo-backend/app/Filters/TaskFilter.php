@@ -14,17 +14,17 @@ class TaskFilter extends Filter
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-    protected function is_completed(int $value): Builder
+    protected function isCompleted(int $value): Builder
     {
         return $this->builder->where('is_completed', $value);
     }
 
-    protected function due_date(string $value): Builder
+    protected function dueDate(string $value): Builder
     {
         return $this->builder->where('due_date', $value);
     }
 
-    protected function category_id(int $value): Builder
+    protected function categoryId(int $value): Builder
     {
         return $this->builder->whereHas('category', function ($q) use ($value) {
             $q->where('id', $value);
@@ -47,7 +47,7 @@ class TaskFilter extends Filter
             $value = ltrim($value, '-');
         }
 
-        if (in_array($value, ['title', 'description', 'due_date', 'is_completed', 'category_id'])) {
+        if (in_array($value, ['title', 'description', 'dueDate', 'isCompleted', 'categoryId'])) {
             return $this->builder->orderBy($value, $direction);
         }
 
