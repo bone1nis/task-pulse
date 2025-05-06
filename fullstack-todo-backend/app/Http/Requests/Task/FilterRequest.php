@@ -30,7 +30,8 @@ class FilterRequest extends FormRequest
             "is_completed" => "nullable|integer",
             "due_date" => "nullable|date",
             "category_id" => "nullable|integer",
-            "tags" => "nullable|string",
+            "tags" => "nullable|array",
+            "tags.*" => "nullable|integer|exists:tags,id",
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 class TaskFilter extends Filter
 {
@@ -21,7 +22,10 @@ class TaskFilter extends Filter
 
     protected function dueDate(string $value): Builder
     {
-        return $this->builder->where('due_date', $value);
+        $start = CarbonImmutable::parse($value)->startOfDay();
+        $end = CarbonImmutable::parse($value)->endOfDay();
+
+        return $this->builder->whereBetween('due_date', [$start, $end]);
     }
 
     protected function categoryId(int $value): Builder
@@ -31,13 +35,15 @@ class TaskFilter extends Filter
         });
     }
 
-    protected function tags(string $value): Builder
+    protected function tags(array $tags): Builder
     {
-        $tags = explode(',', $value);
+        $count = count($tags);
+
         return $this->builder->whereHas('tags', function ($q) use ($tags) {
             $q->whereIn('id', $tags);
-        }, "=", count($tags));
+        }, '=', $count);
     }
+
 
     protected function sort(string $value): Builder
     {

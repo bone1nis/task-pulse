@@ -13,7 +13,7 @@ abstract class Filter
     public const KEYS_TO_INT = [];
     public const KEYS_TO_DATE = [];
     public const KEYS_STRING_TO_ARRAY = [];
-    public const KEYS_TO_ARRAY = [];
+    public const KEYS_TO_ARRAY = ['tags'];
 
     protected Builder $builder;
 
