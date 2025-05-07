@@ -36,6 +36,7 @@ export const useTasksStore = defineStore('tasks', {
         due_date_to: filters.dueDateTo,
         tags: filters.tags,
         category_id: filters.category,
+        sort: filters.sortDirection === 'desc' ? `-${filters.sort}` : filters.sort,
       }
 
       if (filters.isCompleted !== undefined) {

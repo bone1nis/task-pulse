@@ -57,7 +57,7 @@ class TaskFilter extends Filter
             $value = ltrim($value, '-');
         }
 
-        if (in_array($value, ['title', 'description', 'dueDate', 'isCompleted', 'categoryId'])) {
+        if (in_array($value, ['title', 'description'])) {
             return $this->builder->orderBy($value, $direction);
         }
 

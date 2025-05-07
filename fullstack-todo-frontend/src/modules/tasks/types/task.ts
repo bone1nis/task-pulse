@@ -25,6 +25,8 @@ export type TaskFilters = {
   dueDateTo?: string
   categoryId?: number
   tags?: string
+  sort?: 'title' | 'description'
+  sortDirection?: 'asc' | 'desc'
 }
 
 export interface TaskQueryParams {
