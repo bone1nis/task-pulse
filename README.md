@@ -49,11 +49,10 @@ cd task-pulse
 
 ### 2. Конфигурация окружения
 
-Скопируйте файлы .env:
+Скопируйте файл .env:
 
 ```bash
 cp fullstack-todo-backend/.env.example fullstack-todo-backend/.env
-cp fullstack-todo-frontend/.env.example fullstack-todo-frontend/.env
 ```
 
 Настройте параметры в backend/.env:
@@ -91,14 +90,6 @@ docker exec -it fullstack_app php artisan migrate:refresh --seed
 
 Для настройки аутентификации через JWT необходимо создать секретный ключ:
 
-1. Сгенерируйте ключ
-
 ```bash
-   docker exec -it fullstack_app php artisan key:generate
-```
-
-2. После этого добавьте сгенерированный ключ в .env файл:
-
-```bash
-JWT_SECRET=your_generated_secret_key
+   docker exec -it fullstack_app php artisan jwt:secret
 ```
