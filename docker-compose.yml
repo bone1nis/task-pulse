@@ -3,48 +3,49 @@ version: "3.8"
 services:
   app:
     build:
-      context: ./fullstack-todo-backend
+      context: ./backend
       dockerfile: ../_docker/app/Dockerfile
-    container_name: fullstack_app
+    container_name: task-pulse_backend_app
     volumes:
-      - ./fullstack-todo-backend:/var/www
+      - ./backend:/var/www
     user: "1000:33"
     command: >
       /bin/bash -c "composer install --no-interaction --optimize-autoloader && php-fpm"
     depends_on:
       - mysql
     networks:
-      - fullstack-network
+      - task-pulse-network
 
   frontend:
     image: node:18-alpine
     working_dir: /app
     volumes:
-      - ./fullstack-todo-frontend:/app
+      - ./frontend:/app
     ports:
       - "5173:5173"
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
     environment:
       - HOST=0.0.0.0
+    container_name: task-pulse_frontend_app
     networks:
-      - fullstack-network
+      - task-pulse-network
 
   nginx:
     image: nginx:alpine
-    container_name: fullstack_nginx
+    container_name: task-pulse_nginx
     ports:
       - "8080:80"
     volumes:
-      - ./fullstack-todo-backend:/var/www
+      - ./backend:/var/www
       - ./_docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
     networks:
-      - fullstack-network
+      - task-pulse-network
 
   mysql:
     image: mysql:8.0
-    container_name: fullstack_mysql
+    container_name: task-pulse_mysql
     ports:
       - "3306:3306"
     environment:
@@ -53,11 +54,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - fullstack-network
+      - task-pulse-network
 
 volumes:
   mysql_data:
 
 networks:
-  fullstack-network:
+  task-pulse-network:
     driver: bridge
