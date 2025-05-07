@@ -9,6 +9,8 @@ services:
     volumes:
       - ./fullstack-todo-backend:/var/www
     user: "1000:33"
+    command: >
+      /bin/bash -c "composer install --no-interaction --optimize-autoloader && php-fpm"
     depends_on:
       - mysql
     networks:
