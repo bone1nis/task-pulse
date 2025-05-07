@@ -52,7 +52,7 @@ cd task-pulse
 Скопируйте файл .env:
 
 ```bash
-cp fullstack-todo-backend/.env.example fullstack-todo-backend/.env
+cp backend/.env.example backend/.env
 ```
 
 Настройте параметры в backend/.env:
@@ -89,7 +89,7 @@ db — MySQL (порт 3306)
 После того как все контейнеры поднимутся, нужно инициализировать базу данных с помощью миграций и сидов.
 
 ```bash
-docker exec -it fullstack_app php artisan migrate:refresh --seed
+docker exec -it task-pulse_backend_app php artisan migrate:refresh --seed
 ```
 
 ### 5. Настройка APP_KEY
@@ -97,7 +97,7 @@ docker exec -it fullstack_app php artisan migrate:refresh --seed
 Для безопасности приложения необходимо создать секретный ключ:
 
 ```bash
-docker exec -it fullstack_app php artisan key:generate
+docker exec -it task-pulse_backend_app php artisan key:generate
 ```
 
 ### 5. Настройка JWT
@@ -105,7 +105,7 @@ docker exec -it fullstack_app php artisan key:generate
 Для настройки аутентификации через JWT необходимо создать секретный ключ:
 
 ```bash
-docker exec -it fullstack_app php artisan jwt:secret
+docker exec -it task-pulse_backend_app php artisan jwt:secret
 ```
 
 ### 6. Авторизация
