@@ -58,6 +58,13 @@ cp fullstack-todo-backend/.env.example fullstack-todo-backend/.env
 Настройте параметры в backend/.env:
 
 ```
+APP_NAME=TaskPulse
+APP_URL=http://localhost:8080
+
+APP_LOCALE=ru
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=ru_RU
+
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -86,10 +93,18 @@ db — MySQL (порт 3306)
 docker exec -it fullstack_app php artisan migrate:refresh --seed
 ```
 
+### 5. Настройка APP_KEY
+
+Для безопасности приложения необходимо создать секретный ключ:
+
+```bash
+docker exec -it fullstack_app php artisan key:generate
+```
+
 ### 5. Настройка JWT
 
 Для настройки аутентификации через JWT необходимо создать секретный ключ:
 
 ```bash
-   docker exec -it fullstack_app php artisan jwt:secret
+docker exec -it fullstack_app php artisan jwt:secret
 ```
