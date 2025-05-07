@@ -62,7 +62,6 @@ APP_NAME=TaskPulse
 APP_URL=http://localhost:8080
 
 APP_LOCALE=ru
-APP_FALLBACK_LOCALE=en
 APP_FAKER_LOCALE=ru_RU
 
 DB_CONNECTION=mysql
@@ -108,3 +107,7 @@ docker exec -it fullstack_app php artisan key:generate
 ```bash
 docker exec -it fullstack_app php artisan jwt:secret
 ```
+
+### 6. Авторизация
+
+Для тестирования приложения можно использовать любую из существующих в базе данных почт и пароль 12345.
