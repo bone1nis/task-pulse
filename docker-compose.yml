@@ -55,9 +55,19 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - task-pulse-network
+  redis:
+    image: redis:7-alpine
+    container_name: task-pulse_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - task-pulse-network
 
 volumes:
   mysql_data:
+  redis_data:
 
 networks:
   task-pulse-network:
