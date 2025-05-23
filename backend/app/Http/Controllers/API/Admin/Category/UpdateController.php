@@ -21,6 +21,8 @@ class UpdateController extends BaseController
             return $response;
         }
 
-        return new CategoryResource($category);
+        $this->cache->putModel("category", $response);
+
+        return new CategoryResource($response);
     }
 }

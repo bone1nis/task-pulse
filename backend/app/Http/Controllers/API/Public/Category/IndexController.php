@@ -17,7 +17,9 @@ class IndexController extends BaseController
 
         $perPage = $data['per_page'] ?? 10;
 
-        $categories = Category::paginate($perPage);
+        $categories = $this->cache->rememberPaginated("categories", $data, function () use ($perPage) {
+            return Category::paginate($perPage);
+        });
 
         return CategoryResource::collection($categories);
     }

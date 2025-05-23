@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 
 class UpdateController extends BaseController
 {
-
     public function __invoke(UpdateRequest $request, Tag $tag)
     {
         $data = $request->validated();
@@ -22,6 +21,8 @@ class UpdateController extends BaseController
             return $response;
         }
 
-        return new TagResource($tag);
+        $this->cache->putModel("tag", $response);
+
+        return new TagResource($response);
     }
 }

@@ -15,6 +15,7 @@ const isEditing = computed(() => route.query.editing === 'true')
 const tasksStore = useTasksStore()
 const task = computed(() => tasksStore.tasks.find((t) => t.id === taskId))
 
+
 onMounted(async () => {
   if (!task.value) {
     await tasksStore.fetchTaskById(taskId)

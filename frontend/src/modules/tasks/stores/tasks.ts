@@ -5,7 +5,7 @@ import {
   updateTask,
   deleteTask,
   getTaskById,
-  createTask,
+  createTask
 } from '@/modules/tasks/api/task.ts'
 import { normalizeTask } from '@/modules/tasks/utils/normalizeTask'
 
@@ -22,7 +22,7 @@ export const useTasksStore = defineStore('tasks', {
     tasks: [],
     currentPage: 1,
     lastPage: 1,
-    isLoading: false,
+    isLoading: false
   }),
 
   actions: {
@@ -36,7 +36,7 @@ export const useTasksStore = defineStore('tasks', {
         due_date_to: filters.dueDateTo,
         tags: filters.tags,
         category_id: filters.category,
-        sort: filters.sortDirection === 'desc' ? `-${filters.sort}` : filters.sort,
+        sort: filters.sortDirection === 'desc' ? `-${filters.sort}` : filters.sort
       }
 
       if (filters.isCompleted !== undefined) {
@@ -47,7 +47,7 @@ export const useTasksStore = defineStore('tasks', {
         const params = {
           page,
           per_page: limit,
-          ...normalizedFilters,
+          ...normalizedFilters
         }
 
         const response = await fetchTasks(params)
@@ -69,8 +69,8 @@ export const useTasksStore = defineStore('tasks', {
 
       this.isLoading = true
       try {
-        const task = await getTaskById(taskId)
-        const normalizedTask = normalizeTask(task)
+        const response = await getTaskById(taskId)
+        const normalizedTask = normalizeTask(response.data)
 
         this.tasks.push(normalizedTask)
         return normalizedTask
@@ -106,7 +106,7 @@ export const useTasksStore = defineStore('tasks', {
 
           this.tasks[taskIndex] = {
             ...this.tasks[taskIndex],
-            ...normalized,
+            ...normalized
           }
         }
       } catch (error) {
@@ -128,6 +128,6 @@ export const useTasksStore = defineStore('tasks', {
       } finally {
         this.isLoading = false
       }
-    },
-  },
+    }
+  }
 })

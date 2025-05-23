@@ -10,8 +10,12 @@ use App\Models\Category;
 class ShowController extends BaseController
 {
 
-    public function __invoke(Category $category)
+    public function __invoke($id)
     {
+        $category = $this->cache->rememberModel("category", $id, function () use ($id) {
+            return Category::findOrFail($id);
+        });
+
         return new CategoryResource($category);
     }
 }
