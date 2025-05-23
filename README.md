@@ -10,6 +10,7 @@
 - **Backend:** Laravel 12
 - **Аутентификация:** JWT (JSON Web Token)
 - **База данных:** MySQL
+- **Кэширование:** Redis
 - **Инфраструктура:** Docker, Docker Compose
 
 ---
@@ -93,6 +94,7 @@ docker-compose up --build
 backend — Laravel API (порт 8080)  
 frontend — Vue 3 SPA (порт 5173)  
 db — MySQL (порт 3306)
+redis — Redis (порт 6380)
 
 ### 4. Инициализация базы данных и миграции
 
