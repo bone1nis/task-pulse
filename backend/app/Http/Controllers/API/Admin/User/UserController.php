@@ -9,16 +9,19 @@ use App\Http\Requests\User\FilterRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Services\CacheService;
 use App\Services\User\Service;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     public Service $service;
+    public CacheService $cache;
 
-    public function __construct(Service $service)
+    public function __construct(Service $service, CacheService $cache)
     {
         $this->service = $service;
+        $this->cache = $cache;
     }
     /**
      * Display a listing of the resource.
@@ -29,7 +32,9 @@ class UserController extends Controller
 
         $perPage = $data["per_page"] ?? 10;
 
-        $users = User::filter($filter)->paginate($perPage);
+        $users = $this->cache->rememberPaginated("users", $data, function () use ($perPage, $filter) {
+            return User::filter($filter)->paginate($perPage);
+        });
 
         return UserResource::collection($users);
     }
@@ -47,14 +52,20 @@ class UserController extends Controller
             return $response;
         }
 
+        $this->cache->putModel("user", $response);
+
         return new UserResource($response);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = $this->cache->rememberModel("user", $id, function () use ($id) {
+            return User::findOrFail($id);
+        });
+
         return new UserResource($user);
     }
 
@@ -70,7 +81,9 @@ class UserController extends Controller
             return $response;
         }
 
-        return new UserResource($user);
+        $this->cache->putModel("user", $response);
+
+        return new UserResource($response);
     }
 
     /**
@@ -78,6 +91,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->cache->forgetModel("user", $user);
+
         return $this->service->destroy($user);
     }
 }

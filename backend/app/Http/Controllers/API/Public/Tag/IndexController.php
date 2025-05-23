@@ -18,8 +18,10 @@ class IndexController extends BaseController
 
         $perPage = $data['per_page'] ?? 10;
 
-        $categories = Tag::paginate($perPage);
+        $tags = $this->cache->rememberPaginated("tags", $data, function () use ($perPage) {
+            return Tag::paginate($perPage);
+        });
 
-        return TagResource::collection($categories);
+        return TagResource::collection($tags);
     }
 }
