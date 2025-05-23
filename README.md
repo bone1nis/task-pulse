@@ -85,6 +85,8 @@ REDIS_PORT=6379
 
 ### 3. Запуск через Docker Compose
 
+Запуск контейнеров с обязательной пересборкой образов
+
 ```bash
 docker-compose up --build
 ```
@@ -97,7 +99,9 @@ docker-compose down
 
 Затем поднимите контейнеры заново в фоновом режиме:
 
+```bash
 docker-compose up -d
+```
 
 #### Будут подняты сервисы:
 
