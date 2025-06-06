@@ -56,33 +56,6 @@ cd task-pulse
 cp backend/.env.example backend/.env
 ```
 
-Настройте параметры в backend/.env:
-
-```
-APP_NAME=TaskPulse
-APP_URL=http://localhost:8080
-
-APP_LOCALE=ru
-APP_FALLBACK_LOCALE=en
-APP_FAKER_LOCALE=ru_RU
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=root
-DB_PASSWORD=root
-
-CACHE_STORE=redis
-CACHE_PREFIX=cache
-
-REDIS_CLIENT=phpredis
-REDIS_HOST=redis
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-
-```
-
 ### 3. Запуск через Docker Compose
 
 Запуск контейнеров с обязательной пересборкой образов
