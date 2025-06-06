@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import * as yup from 'yup'
-import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { useAuthStore } from '@/modules/auth/stores/auth.ts'
-import { login } from '@/modules/auth/api/auth.ts'
-import { useRouter } from 'vue-router'
-import type { LoginValues } from '@/modules/auth/types/auth.ts'
-import { useLoadingState } from '@/core/composables/useLoadingState.ts'
+import { useAuthStore } from '../stores/auth'
+import type { LoginValues } from '../types/auth'
+import type { Field } from '~/core/types/field'
 
 const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoadingState()
 
 const authStore = useAuthStore()
 const router = useRouter()
 
-const fields = [
+const fields: Field[] = [
   { name: 'email', label: 'Электронная почта', placeholder: 'Введите вашу почту' },
   { name: 'password', type: 'password', label: 'Пароль', placeholder: 'Введите пароль' },
 ]
@@ -22,17 +19,20 @@ const validationSchema = yup.object({
   email: yup.string().required('Поле обязательно').email('Введите корректный email'),
 })
 
-const submitForm = async (values: LoginValues) => {
+const submitForm = async (values: Record<string, string>) => {
   setLoadingState(true)
   setErrorMessage('')
 
   try {
-    const data = await login(values)
-    authStore.setUser(data)
+    await authStore.login(values as unknown as LoginValues)
 
-    await router.push({ name: 'tasks' })
-  } catch (error) {
-    setErrorMessage(error.message)
+    router.push({ name: 'tasks' })
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage(String(error))
+    }
   } finally {
     setLoadingState(false)
   }
@@ -40,12 +40,11 @@ const submitForm = async (values: LoginValues) => {
 </script>
 
 <template>
-  <DynamicForm
-    :fields="fields"
-    :validationSchema="validationSchema"
-    submitText="Авторизация"
-    @submit="submitForm"
-    :disabled="isLoading"
-    :errorMessage="errorMessage"
-  />
+  <DynamicForm 
+    :fields="fields" 
+    :validation-schema="validationSchema" 
+    submit-text="Авторизация" 
+    :disabled="isLoading" 
+    :error-message="errorMessage"
+    @submit="submitForm" />
 </template>

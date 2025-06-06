@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import * as yup from 'yup'
-import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { register } from '@/modules/auth/api/auth.ts'
-import { useAuthStore } from '@/modules/auth/stores/auth.ts'
-import { useRouter } from 'vue-router'
-import type { RegisterValues } from '@/modules/auth/types/auth.ts'
-import { useLoadingState } from '@/core/composables/useLoadingState.ts'
+import { useAuthStore } from '../stores/auth'
+import type { RegisterValues } from '../types/auth'
+import type { Field } from '~/core/types/field'
 
 const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoadingState()
 
 const authStore = useAuthStore()
 const router = useRouter()
 
-const fields = [
+const fields: Field[] = [
   {
     name: 'username',
     label: 'Логин',
@@ -65,17 +62,20 @@ const validationSchema = yup.object({
   email: yup.string().required('Поле обязательно').email('Введите корректный email'),
 })
 
-const submitForm = async (values: RegisterValues) => {
+const submitForm = async (values: Record<string, string>) => {
   setLoadingState(true)
   setErrorMessage('')
 
   try {
-    const data = await register(values)
-    authStore.setUser(data)
+    authStore.register(values as unknown as RegisterValues)
 
     await router.push({ name: 'tasks' })
-  } catch (error) {
-    setErrorMessage(error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage(String(error))
+    }
   } finally {
     setLoadingState(false)
   }
@@ -85,10 +85,10 @@ const submitForm = async (values: RegisterValues) => {
 <template>
   <DynamicForm
     :fields="fields"
-    :validationSchema="validationSchema"
-    submitText="Регистрация"
-    @submit="submitForm"
+    :validation-schema="validationSchema"
+    submit-text="Регистрация"
     :disabled="isLoading"
-    :errorMessage="errorMessage"
+    :error-message="errorMessage"
+    @submit="submitForm"
   />
 </template>

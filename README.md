@@ -6,7 +6,7 @@
 
 ## Стек технологий
 
-- **Frontend:** Vue 3 (Vite, Pinia, Vue Router)
+- **Frontend:** Nuxt 3 (Pinia, Axios, Vee Validate, yup, fontawesome)
 - **Backend:** Laravel 12
 - **Аутентификация:** JWT (JSON Web Token)
 - **База данных:** MySQL
@@ -106,7 +106,7 @@ docker-compose up -d
 #### Будут подняты сервисы:
 
 backend — Laravel API (порт 8080)  
-frontend — Vue 3 SPA (порт 5173)  
+frontend — Nuxt 3 (порт 5173)  
 db — MySQL (порт 3306)  
 redis — Redis (порт 6380)
 

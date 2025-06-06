@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { fetchTags } from '@/modules/tags/api/tag.ts'
-import type { Tag } from '@/modules/tags/types/tag.ts'
+import type { Tag } from '../types/tag'
+import { fetchTags } from '../api/tag'
 
 interface TagsState {
   tags: Tag[]
-  total: number
+  total: number | null
   currentPage: number
   lastPage: number
   isLoading: boolean
@@ -16,6 +16,7 @@ export const useTagsStore = defineStore('tags', {
     currentPage: 1,
     lastPage: 1,
     isLoading: false,
+    total: null
   }),
 
   actions: {

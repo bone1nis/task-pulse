@@ -1,6 +1,6 @@
-import { useTagsStore } from '@/modules/tags/stores/tags.ts'
-import { useCategoriesStore } from '@/modules/categories/stores/categories.ts'
-import { computed, onMounted } from 'vue'
+import { useTagsStore } from '~/modules/tags/stores/tags'
+import { useCategoriesStore } from '~/modules/categories/stores/categories'
+import type { Option } from '../types/field'
 
 export function useCategoriesAndTags() {
   const tagsStore = useTagsStore()
@@ -15,14 +15,14 @@ export function useCategoriesAndTags() {
     }
   })
 
-  const categoryOptions = computed(() =>
+  const categoryOptions = computed<Option[]>(() =>
     categoriesStore.categories.map((category) => ({
       value: category.id,
       label: category.name,
     })),
   )
 
-  const tagOptions = computed(() =>
+  const tagOptions = computed<Option[]>(() =>
     tagsStore.tags.map((tag) => ({
       value: tag.id,
       label: tag.name,

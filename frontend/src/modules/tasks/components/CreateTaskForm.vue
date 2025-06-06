@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { computed } from 'vue'
-import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import { useCategoriesAndTags } from '@/core/composables/useCategoriesAndTags.ts'
-import { useLoadingState } from '@/core/composables/useLoadingState.ts'
 import * as yup from 'yup'
-import { useRouter } from 'vue-router'
+import type { Field } from '~/core/types/field'
+import { useTasksStore } from '../stores/tasks'
+import type { TaskCreate } from '../types/task'
 
 const router = useRouter()
 
@@ -14,7 +11,7 @@ const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoading
 const { categoryOptions, tagOptions } = useCategoriesAndTags()
 const tasksStore = useTasksStore()
 
-const fields = computed(() => [
+const fields = computed<Field[]>(() => [
   { name: 'title', label: 'Заголовок', placeholder: 'Введите заголовок' },
   { name: 'description', label: 'Описание', placeholder: 'Введите описание' },
   { name: 'dueDate', label: 'Срок окончания задачи', type: 'date' },
@@ -38,16 +35,20 @@ const validationSchema = yup.object({
   category: yup.number().required('Поле обязательно'),
 })
 
-const submitForm = async (values) => {
+const submitForm = async (values: Record<string, string>) => {
   setLoadingState(true)
   setErrorMessage('')
 
   try {
-    await tasksStore.createTask(values)
+    await tasksStore.createTask(values as unknown as TaskCreate)
 
     await router.push({ name: 'tasks' })
-  } catch (error) {
-    setErrorMessage(error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage(String(error))
+    }
   } finally {
     setLoadingState(false)
   }
@@ -55,12 +56,11 @@ const submitForm = async (values) => {
 </script>
 
 <template>
-  <DynamicForm
-    :fields="fields"
-    :validationSchema="validationSchema"
-    :disabled="isLoading"
-    :errorMessage="errorMessage"
-    submitText="Создать задачу"
-    @submit="submitForm"
-  />
+  <DynamicForm 
+    :fields="fields" 
+    :validation-schema="validationSchema" 
+    :disabled="isLoading" 
+    :error-message="errorMessage"
+    submit-text="Создать задачу" 
+    @submit="submitForm" />
 </template>

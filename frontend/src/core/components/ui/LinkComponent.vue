@@ -34,8 +34,6 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .link {
   transition: color 0.3s ease;
 

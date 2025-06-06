@@ -1,8 +1,7 @@
-import { useRouter } from 'vue-router'
-import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import type { Action } from '@/core/types/action.ts'
+import type { Action } from '~/core/types/action'
+import { useTasksStore } from '../stores/tasks'
 
-export const useTaskActions = (taskId: number, isSingleView: boolean) => {
+export const useTaskActions = (taskId: number, isSingleView: boolean): Action[] => {
   const router = useRouter()
   const taskStore = useTasksStore()
 
@@ -11,7 +10,7 @@ export const useTaskActions = (taskId: number, isSingleView: boolean) => {
       label: 'Редактировать',
       handler: () =>
         router.push({
-          name: 'task',
+          name: 'tasks-id',
           params: { id: taskId },
           query: { editing: 'true' }
         })
@@ -42,7 +41,11 @@ export const useTaskActions = (taskId: number, isSingleView: boolean) => {
     {
       variant: 'secondary',
       label: 'Перейти к задаче',
-      handler: () => router.push({ name: 'task', params: { id: taskId } })
+      handler: () =>
+        router.push({
+          name: 'tasks-id',
+          params: { id: taskId }
+        })
     }
   ]
 

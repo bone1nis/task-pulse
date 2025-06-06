@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import type { Task, TaskCreate, TaskFilters, TaskUpdate } from '@/modules/tasks/types/task.ts'
+import type { Task, TaskCreate, TaskFilters, TaskQueryParams, TaskUpdate } from '../types/task'
 import {
   fetchTasks,
   updateTask,
   deleteTask,
   getTaskById,
   createTask
-} from '@/modules/tasks/api/task.ts'
-import { normalizeTask } from '@/modules/tasks/utils/normalizeTask'
+} from '../api/task'
+import { normalizeTask } from '../utils/normalizeTask'
 
 interface TasksState {
   tasks: Task[]
@@ -22,6 +22,7 @@ export const useTasksStore = defineStore('tasks', {
     tasks: [],
     currentPage: 1,
     lastPage: 1,
+    total: 0,
     isLoading: false
   }),
 
@@ -29,13 +30,13 @@ export const useTasksStore = defineStore('tasks', {
     async fetchUserTasks(page = 1, limit = 10, filters: TaskFilters = {}) {
       this.isLoading = true
 
-      const normalizedFilters = {
+      const normalizedFilters: TaskQueryParams = {
         title: filters.title,
         description: filters.description,
         due_date_from: filters.dueDateFrom,
         due_date_to: filters.dueDateTo,
-        tags: filters.tags,
-        category_id: filters.category,
+        'tags[]': filters.tags,
+        category_id: filters.categoryId,
         sort: filters.sortDirection === 'desc' ? `-${filters.sort}` : filters.sort
       }
 
@@ -44,15 +45,13 @@ export const useTasksStore = defineStore('tasks', {
       }
 
       try {
-        const params = {
+        const response = await fetchTasks({
           page,
           per_page: limit,
           ...normalizedFilters
-        }
+        })
 
-        const response = await fetchTasks(params)
         this.tasks = response.data.map(normalizeTask)
-
         this.total = response.meta.total
         this.currentPage = response.meta.current_page
         this.lastPage = response.meta.last_page
@@ -69,8 +68,8 @@ export const useTasksStore = defineStore('tasks', {
 
       this.isLoading = true
       try {
-        const response = await getTaskById(taskId)
-        const normalizedTask = normalizeTask(response.data)
+        const task = await getTaskById(taskId)
+        const normalizedTask = normalizeTask(task)
 
         this.tasks.push(normalizedTask)
         return normalizedTask
@@ -84,7 +83,6 @@ export const useTasksStore = defineStore('tasks', {
 
     async deleteTask(taskId: number) {
       this.isLoading = true
-
       try {
         await deleteTask(taskId)
         this.tasks = this.tasks.filter((task) => task.id !== taskId)
@@ -97,16 +95,13 @@ export const useTasksStore = defineStore('tasks', {
 
     async updateTask(taskId: number, updatedData: TaskUpdate) {
       this.isLoading = true
-
       try {
-        const response = await updateTask(taskId, updatedData)
+        const updatedTask = await updateTask(taskId, updatedData)
         const taskIndex = this.tasks.findIndex((task) => task.id === taskId)
         if (taskIndex !== -1) {
-          const normalized = normalizeTask(response.data)
-
           this.tasks[taskIndex] = {
             ...this.tasks[taskIndex],
-            ...normalized
+            ...updatedTask.data
           }
         }
       } catch (error) {
@@ -115,13 +110,12 @@ export const useTasksStore = defineStore('tasks', {
         this.isLoading = false
       }
     },
+
     async createTask(newTaskData: TaskCreate) {
       this.isLoading = true
-
       try {
-        const response = await createTask(newTaskData)
-        const normalizedTask = normalizeTask(response.data)
-
+        const createdTask = await createTask(newTaskData)
+        const normalizedTask = normalizeTask(createdTask.data)
         this.tasks.push(normalizedTask)
       } catch (error) {
         console.error('Ошибка при создании задачи:', error)

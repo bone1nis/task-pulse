@@ -1,5 +1,6 @@
-import type { Tag } from '@/modules/tags/types/tag.ts'
-import type { Category } from '@/modules/categories/types/category.ts'
+import type { PaginationLinks, PaginationMeta } from '~/core/types/pagination'
+import type { Tag } from '~/modules/tags/types/tag'
+import type { Category } from '~/modules/categories/types/category'
 
 export interface Task {
   id: number
@@ -13,9 +14,9 @@ export interface Task {
   tags: Tag[]
 }
 
-export type TaskUpdate = Omit<Task, 'id', 'createdAt', 'updatedAt'>
+export type TaskUpdate = Omit<Task, 'id' | 'createdAt' | 'updatedAt'>
 
-export type TaskCreate = Omit<Task, 'id', 'createdAt', 'updatedAt', 'isCompleted'>
+export type TaskCreate = Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'isCompleted'>
 
 export type TaskFilters = {
   title?: string
@@ -30,11 +31,32 @@ export type TaskFilters = {
 }
 
 export interface TaskQueryParams {
+  page?: number
+  per_page?: number
   title?: string
   description?: string | null
   is_completed?: number
   due_date_from?: string
   due_date_to?: string
   category_id?: number
-  tags?: string
+  'tags[]'?: string
+  sort?: string
+}
+
+export interface ApiTask {
+  id: number
+  title: string
+  description: string
+  is_completed: number
+  created_at: string
+  updated_at: string
+  due_date: string
+  category: Category
+  tags: Tag[]
+}
+
+export interface TasksResponse {
+  data: ApiTask[]
+  links: PaginationLinks
+  meta: PaginationMeta
 }

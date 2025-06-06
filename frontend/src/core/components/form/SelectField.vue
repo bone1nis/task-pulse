@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Field, ErrorMessage } from 'vee-validate'
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import type { SelectField } from '@/core/types/field.ts'
+import type { SelectField } from '~/core/types/field'
 import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
 
@@ -13,7 +12,7 @@ defineProps<SelectField>()
     <TypographyComponent :for="name" variant="subheading" spacing="small">
       {{ label }}
     </TypographyComponent>
-    <Field :name="name" v-slot="{ field }">
+    <Field v-slot="{ field }" :name="name">
       <Multiselect
         v-bind="field"
         :mode="multiselect ? 'tags' : 'single'"
@@ -24,7 +23,7 @@ defineProps<SelectField>()
         :close-on-select="!multiselect"
         :clear-on-select="true"
         :allow-empty="false"
-        noResultsText="Ничего не найдено"
+        no-results-text="Ничего не найдено"
         :options="options"
       />
     </Field>
@@ -33,8 +32,6 @@ defineProps<SelectField>()
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme';
-
 .form {
   &__group {
     display: flex;

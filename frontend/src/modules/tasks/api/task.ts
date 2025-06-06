@@ -1,22 +1,21 @@
-import axios from '@/core/api/axios.ts'
-import type { Task, TaskCreate, TaskQueryParams, TaskUpdate } from '@/modules/tasks/types/task.ts'
+import type { ApiTask, TaskCreate, TaskQueryParams, TasksResponse, TaskUpdate } from "../types/task"
 
-export const fetchTasks = async (params: TaskQueryParams = {}) => {
-  const response = await axios.get('/tasks', { params })
-  return response.data
+export const fetchTasks = async (params: TaskQueryParams = {}): Promise<TasksResponse> => {
+  return await useApiFetch<TasksResponse>('/tasks', { params })
 }
 
-export const getTaskById = async (taskId: number): Promise<Task> => {
-  const response = await axios.get(`/tasks/${taskId}`)
-  return response.data
+export const getTaskById = async (taskId: number): Promise<ApiTask> => {
+  return await useApiFetch<ApiTask>(`/tasks/${taskId}`)
 }
 
-export const deleteTask = async (taskId: number) => {
-  await axios.delete(`/tasks/${taskId}`)
+export const deleteTask = async (taskId: number): Promise<void> => {
+  await useApiFetch(`/tasks/${taskId}`, {
+    method: 'DELETE',
+  })
 }
 
-export const updateTask = async (taskId: number, updatedData: TaskUpdate) => {
-  const data = {
+export const updateTask = async (taskId: number, updatedData: TaskUpdate): Promise<{ data: ApiTask }> => {
+  const payload = {
     title: updatedData.title,
     description: updatedData.description || null,
     is_completed: updatedData.isCompleted,
@@ -24,12 +23,15 @@ export const updateTask = async (taskId: number, updatedData: TaskUpdate) => {
     tags: updatedData.tags,
     category_id: updatedData.category,
   }
-  const response = await axios.put(`/tasks/${taskId}`, data)
-  return response.data
+
+  return await useApiFetch<{ data: ApiTask }>(`/tasks/${taskId}`, {
+    method: 'PUT',
+    body: payload,
+  })
 }
 
-export const createTask = async (createdData: TaskCreate) => {
-  const data = {
+export const createTask = async (createdData: TaskCreate): Promise<{ data: ApiTask }> => {
+  const payload = {
     title: createdData.title,
     description: createdData.description,
     due_date: createdData.dueDate,
@@ -37,6 +39,8 @@ export const createTask = async (createdData: TaskCreate) => {
     category_id: createdData.category,
   }
 
-  const response = await axios.post(`/tasks`, data)
-  return response.data
+  return await useApiFetch<{ data: ApiTask }>('/tasks', {
+    method: 'POST',
+    body: payload,
+  })
 }

@@ -20,6 +20,7 @@ class StoreController extends BaseController
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("category", $response);
 
         return new CategoryResource($response);

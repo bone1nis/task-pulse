@@ -1,13 +1,16 @@
-import api from '../../../core/api/axios.ts'
-import type { LoginValues, RegisterValues } from '@/modules/auth/types/auth.ts'
+import type { AxiosError } from 'axios'
+import type { LoginValues, RegisterValues } from '../types/auth'
 
 export const login = async (values: LoginValues) => {
+  const api = useApi()
+
   try {
     await api.post('/auth/login', values)
     const response = await api.post('/auth/me')
     return response.data
-  } catch (error) {
-    if (error.response?.status === 401) {
+  } catch (error: unknown) {
+    const err = error as AxiosError
+    if (err.response?.status === 401) {
       throw new Error('Неверный логин или пароль')
     }
 
@@ -16,6 +19,7 @@ export const login = async (values: LoginValues) => {
 }
 
 export const logout = async () => {
+  const api = useApi()
   try {
     await api.post('/auth/logout')
   } catch (error) {
@@ -25,6 +29,8 @@ export const logout = async () => {
 }
 
 export const register = async (values: RegisterValues) => {
+  const api = useApi()
+
   try {
     const payload = {
       username: values.username,
@@ -39,8 +45,9 @@ export const register = async (values: RegisterValues) => {
     await api.post('/auth/register', payload)
     const response = await api.post('/auth/me')
     return response.data
-  } catch (error) {
-    if (error.response?.status === 422) {
+  } catch (error: unknown) {
+    const err = error as AxiosError
+    if (err.response?.status === 422) {
       throw new Error('Некорректные данные для регистрации')
     }
 
@@ -49,6 +56,7 @@ export const register = async (values: RegisterValues) => {
 }
 
 export const me = async () => {
+  const api = useApi()
   const response = await api.post('/auth/me')
   return response.data
 }

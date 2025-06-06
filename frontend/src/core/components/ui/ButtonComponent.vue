@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 defineProps<{
   type?: 'button' | 'submit' | 'reset'
   block?: boolean
@@ -17,6 +15,7 @@ defineExpose({ buttonEl })
 
 <template>
   <button
+    ref="buttonEl"
     :type="type || 'button'"
     :class="[
       'btn',
@@ -28,15 +27,12 @@ defineExpose({ buttonEl })
     ]"
     :disabled="disabled"
     v-bind="$attrs"
-    ref="buttonEl"
   >
     <slot />
   </button>
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .btn {
   padding: $spacing-sm;
   font-size: $font-size-large;

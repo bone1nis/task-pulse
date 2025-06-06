@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
-import type { User } from '@/core/types/user.ts'
-import { register, logout, login, me } from '@/modules/auth/api/auth.ts'
-import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import { useCategoriesStore } from '@/modules/categories/stores/categories.ts'
+import type { User } from '~/core/types/user'
+import { register, login, logout, me } from '../api/auth'
+import type { LoginValues, RegisterValues } from '../types/auth'
+import { useTasksStore } from '~/modules/tasks/stores/tasks'
+import { useCategoriesStore } from '~/modules/categories/stores/categories'
+import { useTagsStore } from '~/modules/tags/stores/tags'
 
 interface AuthState {
   user: User | null
@@ -40,7 +42,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async login(values) {
+    async login(values: LoginValues) {
       this.isLoading = true
       try {
         const user = await login(values)
@@ -53,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async register(values) {
+    async register(values: RegisterValues) {
       this.isLoading = true
       try {
         const user = await register(values)
@@ -77,7 +79,7 @@ export const useAuthStore = defineStore('auth', {
 
         const taskStore = useTasksStore()
         const categoryStore = useCategoriesStore()
-        const tagStore = useTasksStore()
+        const tagStore = useTagsStore()
 
         taskStore.$reset()
         categoryStore.$reset()
@@ -88,8 +90,5 @@ export const useAuthStore = defineStore('auth', {
     },
   },
 
-  persist: {
-    key: 'auth',
-    paths: ['user', 'isAuthenticated'],
-  },
+  persist: true
 })

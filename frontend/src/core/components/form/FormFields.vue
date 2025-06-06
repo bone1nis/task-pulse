@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import InputField from './InputField.vue'
 import SelectField from './SelectField.vue'
-import ToggleField from '@/core/components/form/ToggleField.vue'
-import type { Field } from '@/core/types/field.ts'
+import ToggleField from './ToggleField.vue'
+import type { Field } from '~/core/types/field'
 
 defineProps<{
   fields: Field[]
@@ -49,9 +49,9 @@ const fieldProps = (field: Field) => {
 
 <template>
   <component
-    v-for="field in fields"
-    :key="field.name"
     :is="getFieldComponent(field)"
     v-bind="fieldProps(field)"
+    v-for="field in fields"
+    :key="field.name"
   />
 </template>

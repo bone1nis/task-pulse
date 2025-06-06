@@ -11,6 +11,7 @@ class DestroyController extends BaseController
 
     public function __invoke(Category $category)
     {
+        $this->cache->forgetList();
         $this->cache->forgetModel("category", $category);
 
         return $this->service->destroy($category);

@@ -1,8 +1,7 @@
-import axios from '@/core/api/axios.ts'
+import type { CategoriesResponse } from '../types/category'
 
-export const fetchCategories = async (page: number = 1, limit: number = 10) => {
-  const response = await axios.get('/categories', {
-    params: { page, per_page: limit },
+export const fetchCategories = async (page = 1, limit = 10): Promise<CategoriesResponse> => {
+  return await useApiFetch<CategoriesResponse>('/categories', {
+    params: { page, per_page: limit }
   })
-  return response.data
 }

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import { defineProps } from 'vue'
-
 defineProps<{
   variant?: 'heading' | 'subheading' | 'paragraph' | 'quote' | 'caption'
   align?: 'left' | 'center' | 'right'

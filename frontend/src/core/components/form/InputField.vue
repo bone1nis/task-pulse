@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Field, ErrorMessage } from 'vee-validate'
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import type { InputField } from '@/core/types/field.ts'
+import type { InputField } from '~/core/types/field'
 
 defineProps<InputField>()
 </script>
@@ -11,23 +10,20 @@ defineProps<InputField>()
     <TypographyComponent :for="name" variant="subheading" spacing="small">
       {{ label }}
     </TypographyComponent>
-    <Field :name="name" v-slot="{ field }">
+    <Field v-slot="{ field }" :name="name">
       <input
-        :type="type || 'text'"
         :id="name"
+        :type="type || 'text'"
         :placeholder="placeholder"
         :disabled="disabled"
         v-bind="field"
-        class="form__input"
-      />
+        class="form__input">
     </Field>
     <ErrorMessage :name="name" class="form__error" />
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .form {
   &__group {
     display: flex;

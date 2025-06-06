@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { computed } from 'vue'
-import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import { useCategoriesAndTags } from '@/core/composables/useCategoriesAndTags.ts'
-import { useLoadingState } from '@/core/composables/useLoadingState.ts'
-import type { TaskFilters } from '@/modules/tasks/types/task.ts'
+import type { Field } from '~/core/types/field'
+import { useTasksStore } from '../stores/tasks'
 
 const { isLoading, errorMessage, setLoadingState, setErrorMessage } = useLoadingState()
 
 const { categoryOptions, tagOptions } = useCategoriesAndTags()
 const tasksStore = useTasksStore()
 
-const fields = computed(() => [
+const fields = computed<Field[]>(() => [
   { name: 'title', label: 'Заголовок', placeholder: 'Введите заголовок' },
   { name: 'description', label: 'Описание', placeholder: 'Введите описание' },
   { name: 'dueDateFrom', label: 'Срок выполнения: от', type: 'date' },
@@ -62,14 +58,18 @@ const fields = computed(() => [
   },
 ])
 
-const submitForm = async (values: TaskFilters) => {
+const submitForm = async (values: Record<string, string>) => {
   setLoadingState(true)
   setErrorMessage('')
 
   try {
     await tasksStore.fetchUserTasks(1, 10, values)
-  } catch (error) {
-    setErrorMessage(error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage(String(error))
+    }
   } finally {
     setLoadingState(false)
   }
@@ -81,8 +81,8 @@ const submitForm = async (values: TaskFilters) => {
     variant="inline"
     :fields="fields"
     :disabled="isLoading"
-    :errorMessage="errorMessage"
-    submitText="Фильтрация"
+    :error-message="errorMessage"
+    submit-text="Фильтрация"
     @submit="submitForm"
   />
 </template>

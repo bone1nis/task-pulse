@@ -21,6 +21,7 @@ class StoreController extends BaseController
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("tag", $response);
 
         return new TagResource($response);

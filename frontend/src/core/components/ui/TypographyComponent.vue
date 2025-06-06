@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 defineProps<{
   as?: string
   variant?: 'heading' | 'subheading' | 'paragraph' | 'quote' | 'caption'
@@ -25,13 +23,11 @@ defineProps<{
       spacing ? `typography--spacing-${spacing}` : '',
     ]"
   >
-    <slot></slot>
+    <slot />
   </component>
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .typography {
   &--heading {
     font-size: $font-size-xxlarge;

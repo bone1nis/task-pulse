@@ -9,7 +9,7 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
-use App\Services\CacheService;
+use App\Services\Task\TaskCacheService;
 use App\Services\Task\Service;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -19,9 +19,9 @@ class TaskController extends Controller
     use AuthorizesRequests;
 
     public Service $service;
-    public CacheService $cache;
+    public TaskCacheService $cache;
 
-    public function __construct(Service $service, CacheService $cache)
+    public function __construct(Service $service, TaskCacheService $cache)
     {
         $this->service = $service;
         $this->cache = $cache;
@@ -57,6 +57,7 @@ class TaskController extends Controller
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("task", $response);
 
         return new TaskResource($response);
@@ -92,6 +93,7 @@ class TaskController extends Controller
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("task", $response);
 
         return new TaskResource($response);
@@ -104,6 +106,7 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
 
+        $this->cache->forgetList();
         $this->cache->forgetModel("task", $task);
 
         return $this->service->destroy($task);

@@ -1,16 +1,10 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="spinner-wrapper">
-    <div class="spinner"></div>
+    <div class="spinner" />
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .spinner-wrapper {
   display: flex;
   justify-content: center;

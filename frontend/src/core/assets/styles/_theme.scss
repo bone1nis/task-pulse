@@ -1,4 +1,4 @@
-@import "variables";
+@use '@/core/assets/styles/variables.scss' as *;
 
 :root {
   --color-background: #{$color-white};

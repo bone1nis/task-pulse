@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import ButtonComponent from '@/core/components/ui/ButtonComponent.vue'
-import type { Action } from '@/core/types/action.ts'
+import type { Action } from '~/core/types/action'
 
 defineProps<{
   title: string
@@ -17,17 +15,17 @@ defineProps<{
       <slot name="header" />
     </div>
     <div class="card__body">
-      <TypographyComponent variant="paragraph" v-if="content">{{ content }}</TypographyComponent>
+      <TypographyComponent v-if="content" variant="paragraph">{{ content }}</TypographyComponent>
       <slot name="content" />
     </div>
 
     <div class="card__footer">
-      <div class="card__actions" v-if="actions">
+      <div v-if="actions" class="card__actions">
         <ButtonComponent
           v-for="(action, index) in actions"
           :key="index"
-          @click="action.handler"
           :variant="action.variant"
+          @click="action.handler"
         >
           {{ action.label }}
         </ButtonComponent>
@@ -37,8 +35,6 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .card {
   background-color: var(--color-background-mute);
   border-radius: $radius-md;

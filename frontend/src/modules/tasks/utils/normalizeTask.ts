@@ -1,6 +1,6 @@
-import type { Task } from '@/modules/tasks/types/task'
+import type { ApiTask, Task } from "../types/task"
 
-export function normalizeTask(task): Task {
+export function normalizeTask(task: ApiTask): Task {
   return {
     id: task.id,
     title: task.title,

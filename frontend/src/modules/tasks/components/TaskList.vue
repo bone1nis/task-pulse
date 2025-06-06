@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import TaskItem from '@/modules/tasks/components/TaskItem.vue'
-import type { Task } from '@/modules/tasks/types/task.ts'
+import type { Task } from '../types/task';
 
 defineProps<{
   tasks: Task[]
@@ -14,8 +13,6 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .tasks-list {
   display: flex;
   flex-direction: column;

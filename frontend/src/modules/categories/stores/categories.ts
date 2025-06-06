@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import type { Category } from '@/modules/categories/types/category.ts'
-import { fetchCategories } from '@/modules/categories/api/category.ts'
+import type { Category } from '../types/category'
+import { fetchCategories } from '../api/category'
 
 interface CategoriesState {
   categories: Category[]
-  total: number
+  total: number | null
   currentPage: number
   lastPage: number
   isLoading: boolean
@@ -16,6 +16,7 @@ export const useCategoriesStore = defineStore('categories', {
     currentPage: 1,
     lastPage: 1,
     isLoading: false,
+    total: null
   }),
 
   actions: {

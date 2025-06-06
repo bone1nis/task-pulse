@@ -9,16 +9,16 @@ use App\Http\Requests\User\FilterRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
-use App\Services\CacheService;
 use App\Services\User\Service;
+use App\Services\User\UserCacheService;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     public Service $service;
-    public CacheService $cache;
+    public UserCacheService $cache;
 
-    public function __construct(Service $service, CacheService $cache)
+    public function __construct(Service $service, UserCacheService $cache)
     {
         $this->service = $service;
         $this->cache = $cache;
@@ -52,6 +52,7 @@ class UserController extends Controller
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("user", $response);
 
         return new UserResource($response);
@@ -81,6 +82,7 @@ class UserController extends Controller
             return $response;
         }
 
+        $this->cache->forgetList();
         $this->cache->putModel("user", $response);
 
         return new UserResource($response);
@@ -91,6 +93,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->cache->forgetList();
         $this->cache->forgetModel("user", $user);
 
         return $this->service->destroy($user);

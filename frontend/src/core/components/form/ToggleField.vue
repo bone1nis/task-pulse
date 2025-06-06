@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Field, ErrorMessage } from 'vee-validate'
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import type { ToggleField } from '@/core/types/field.ts'
+import type { ToggleField } from '~/core/types/field'
 
 defineProps<ToggleField>()
 </script>
@@ -11,23 +10,21 @@ defineProps<ToggleField>()
     <TypographyComponent :for="name" variant="subheading" spacing="small">
       {{ label }}
     </TypographyComponent>
-    <Field :name="name" v-slot="{ field }">
+    <Field v-slot="{ field }" :name="name">
       <input
-        type="checkbox"
         :id="name"
+        v-model="field.value"
+        type="checkbox"
         :disabled="disabled"
         v-bind="field"
-        v-model="field.value"
         class="form__checkbox"
-      />
+      >
     </Field>
     <ErrorMessage :name="name" class="form__error" />
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .form {
   &__group {
     display: flex;

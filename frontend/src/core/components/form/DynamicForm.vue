@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import { Form } from 'vee-validate'
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import ButtonComponent from '@/core/components/ui/ButtonComponent.vue'
-import ErrorMessage from '@/core/components/ui/ErrorMessage.vue'
-import type { Field } from '@/core/types/field.ts'
-import FormFields from '@/core/components/form/FormFields.vue'
+import type { Field } from '~/core/types/field'
 
 defineProps<{
   fields: Field[]
-  validationSchema?: never
-  initialValues?: Record<string, never>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validationSchema?: Record<string, any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  initialValues?: Record<string, any>
   submitText: string
   disabled?: boolean
   errorMessage?: string
@@ -21,14 +18,14 @@ const emit = defineEmits<{
   (e: 'submit', value: Record<string, string>): void
 }>()
 
-const submitForm = (values) => {
+const submitForm = (values: Record<string, string>) => {
   emit('submit', values)
 }
 </script>
 
 <template>
   <div :class="['form', { 'form--block': variant !== 'inline' }]">
-    <Form @submit="submitForm" :validation-schema="validationSchema" :initialValues="initialValues">
+    <Form :validation-schema="validationSchema" :initial-values="initialValues" @submit="submitForm">
       <TypographyComponent as="h2" align="center" font-weight="bold" spacing="large"
         >{{ submitText }}
       </TypographyComponent>
@@ -49,8 +46,6 @@ const submitForm = (values) => {
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .form {
   padding: $spacing-xl;
   background-color: var(--color-background-soft);

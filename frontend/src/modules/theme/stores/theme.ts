@@ -2,16 +2,21 @@ import { defineStore } from 'pinia'
 
 export const useThemeStore = defineStore('theme', {
   state: () => ({
-    theme: localStorage.getItem('theme') || 'dark',
+    theme: 'dark',
   }),
   actions: {
-    toggleTheme() {
-      this.theme = this.theme === 'dark' ? 'light' : 'dark'
-      localStorage.setItem('theme', this.theme)
-      document.documentElement.classList.toggle('dark', this.theme === 'dark')
+    setTheme(theme: string) {
+      this.theme = theme
+      if (import.meta.client) {
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+      }
     },
-    applyTheme() {
-      document.documentElement.classList.toggle('dark', this.theme === 'dark')
+    toggleTheme() {
+      const newTheme = this.theme === 'dark' ? 'light' : 'dark'
+      this.setTheme(newTheme)
+      if (import.meta.client) {
+        localStorage.setItem('theme', newTheme)
+      }
     },
   },
 })

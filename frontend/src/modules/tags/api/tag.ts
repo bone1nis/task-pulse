@@ -1,8 +1,13 @@
-import axios from '@/core/api/axios.ts'
+import type { TagsResponse } from '../types/tag'
 
-export const fetchTags = async (page: number = 1, limit: number = 10) => {
-  const response = await axios.get('/tags', {
-    params: { page, per_page: limit },
+export const fetchTags = async (page = 1, limit = 10): Promise<TagsResponse> => {
+  const data = await useApiFetch<TagsResponse>('/tags', {
+    params: { page, per_page: limit }
   })
-  return response.data
+
+  if (!data) {
+    throw new Error('Пустой ответ от сервера')
+  }
+
+  return data
 }

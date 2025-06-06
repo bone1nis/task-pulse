@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import DynamicForm from '@/core/components/form/DynamicForm.vue'
-import { computed } from 'vue'
-import type { Task } from '@/modules/tasks/types/task.ts'
-import { useTasksStore } from '@/modules/tasks/stores/tasks.ts'
-import { useDateFormatter } from '@/core/composables/useDateFormatter.ts'
-import { useCategoriesAndTags } from '@/core/composables/useCategoriesAndTags.ts'
-import { useLoadingState } from '@/core/composables/useLoadingState.ts'
 import * as yup from 'yup'
-import { useRouter } from 'vue-router'
+import type { Field } from '~/core/types/field'
+import { useTasksStore } from '../stores/tasks'
+import type { Task, TaskUpdate } from '../types/task'
 
 const props = defineProps<{
   task: Task
@@ -25,7 +20,7 @@ const tasksStore = useTasksStore()
 
 const formattedDate = task.dueDate ? formatDate(task.dueDate) : ''
 
-const fields = computed(() => [
+const fields = computed<Field[]>(() => [
   { name: 'title', label: 'Заголовок', placeholder: 'Введите заголовок' },
   { name: 'description', label: 'Описание', placeholder: 'Введите описание' },
   { name: 'isCompleted', label: 'Задача завершена', as: 'toggle' },
@@ -59,16 +54,20 @@ const initialValues = {
   tags: task.tags.map((item) => item.id),
 }
 
-const submitForm = async (values) => {
+const submitForm = async (values: Record<string, string>) => {
   setLoadingState(true)
   setErrorMessage('')
 
   try {
-    await tasksStore.updateTask(task.id, values)
+    await tasksStore.updateTask(task.id, values as unknown as TaskUpdate)
 
     await router.push({ name: 'tasks' })
-  } catch (error) {
-    setErrorMessage(error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage(String(error))
+    }
   } finally {
     setLoadingState(false)
   }
@@ -78,11 +77,11 @@ const submitForm = async (values) => {
 <template>
   <DynamicForm
     :fields="fields"
-    :validationSchema="validationSchema"
-    :initialValues="initialValues"
+    :validation-schema="validationSchema"
+    :initial-values="initialValues"
     :disabled="isLoading"
-    :errorMessage="errorMessage"
-    submitText="Обновить задачу"
+    :error-message="errorMessage"
+    submit-text="Обновить задачу"
     @submit="submitForm"
   />
 </template>

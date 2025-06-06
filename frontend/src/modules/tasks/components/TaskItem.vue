@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import CardComponent from '@/core/components/ui/CardComponent.vue'
-import type { Task } from '@/modules/tasks/types/task.ts'
-import TypographyComponent from '@/core/components/ui/TypographyComponent.vue'
-import { useDateFormatter } from '@/core/composables/useDateFormatter.ts'
-import { useTaskActions } from '@/modules/tasks/composables/useTaskActions.ts'
+import type { Task } from '../types/task';
 
 const props = defineProps<{
   task: Task
@@ -58,8 +54,6 @@ const actions = useTaskActions(task.id, isSingleView ?? false)
 </template>
 
 <style scoped lang="scss">
-@import '@/core/assets/styles/theme.scss';
-
 .task__content {
   margin-top: $spacing-sm;
 }

@@ -1,5 +1,6 @@
-@import "reset";
-@import "theme";
+@use '@/core/assets/styles/theme.scss' as *;
+@use '@/core/assets/styles/reset.scss' as *;
+@use '@/core/assets/styles/variables.scss' as *;
 
 *,
 *::before,
