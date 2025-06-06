@@ -67,9 +67,9 @@ const submitForm = async (values: Record<string, string>) => {
   setErrorMessage('')
 
   try {
-    authStore.register(values as unknown as RegisterValues)
+    await authStore.register(values as unknown as RegisterValues)
 
-    await router.push({ name: 'tasks' })
+    router.push({ name: 'tasks' })
   } catch (error: unknown) {
     if (error instanceof Error) {
       setErrorMessage(error.message)
